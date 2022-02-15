@@ -32,7 +32,7 @@ interface StudentInterface {
 class StudentClass implements StudentInterface {
     firstName: string;
     lastName: string;
-    constructor(fn:string, ln:string) {
+    new (fn:string, ln:string) {
         this.firstName = fn;
         this.lastName = ln;
     }
