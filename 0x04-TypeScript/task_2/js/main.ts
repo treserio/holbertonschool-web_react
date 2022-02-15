@@ -1,5 +1,3 @@
-import { NoEmitOnErrorsPlugin } from "webpack";
-
 interface DirectorInterface {
     workFromHome(): string;
     getCoffeeBreak(): string;
