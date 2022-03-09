@@ -4,18 +4,27 @@
 /// <reference path="./subjects/React.ts" />
 /// <reference path="./subjects/Teacher.ts" />
 
-const subjectC: Subjects.Cpp = new Subjects.Cpp();
+export const cpp: Subjects.Cpp = new Subjects.Cpp();
+export const java: Subjects.Java = new Subjects.Java();
+export const react: Subjects.React = new Subjects.React();
 
-const cTeach: Subjects.Teacher = {
-    firstName: 'Dumb',
-    lastName: 'Shit',
+export const cTeacher: Subjects.Teacher = {
+    firstName: 'I Like',
+    lastName: 'Turtles',
+    experienceTeachingC: 10
 }
 
-cTeach.experienceTeachingC = 12;
+console.log('C++');
+cpp.setTeacher = cTeacher;
+console.log(cpp.getRequirements());
+console.log(cpp.getAvailableTeacher());
 
-subjectC.setTeacher = cTeach;
-cTeach.firstName = 'Beevus';
+console.log('Java');
+java.setTeacher = cTeacher;
+console.log(java.getRequirements());
+console.log(java.getAvailableTeacher());
 
-console.log(subjectC.getRequirements());
-console.log(subjectC.teacher.lastName);
-console.log(subjectC.getAvailableTeacher());
+console.log('React');
+react.setTeacher = cTeacher;
+console.log(react.getRequirements());
+console.log(react.getAvailableTeacher());
