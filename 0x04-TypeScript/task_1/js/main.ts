@@ -1,5 +1,3 @@
-import { getForkTsCheckerWebpackPluginHooks } from "fork-ts-checker-webpack-plugin/lib/hooks";
-
 interface Teacher {
     readonly firstName: string;
     readonly lastName: string;
