@@ -10,9 +10,22 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
+        test: /\.css$/,
+        use: [  'style-loader', 'css-loader' ],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true,
+              disable: true,
+            },
+          },
+        ],
       },
     ],
-  },
+  }
 };

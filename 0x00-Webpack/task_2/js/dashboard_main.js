@@ -1,13 +1,8 @@
 import $ from 'jquery';
 import _ from 'lodash';
-// import logoImg from '../assets/holberton-logo.jpg';
 import '../css/main.css';
 
 
-// var img = $('<img>')[0];
-// img.src = logoImg;
-// console.log(img);
-// $('body').append($('<div id="logo"></div>').append(img));
 $('body').append('<div id="logo"></div>');
 $('body').append('<p>Holberton Dashboard</p>');
 $('body').append('<p>Dashboard data for the students</p>');
