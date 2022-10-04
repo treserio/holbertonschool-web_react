@@ -1,32 +1,21 @@
 .App-header {
-	display: flex;
-	align-items: center;
-	color: #e0354b;
-	border-bottom: 3px #e0354b solid;
-}
-
-.App-header h1 {
-	display: inline;
-}
-
-.App-header img {
-	width: 20rem;
-	height: 20rem;
+    display: flex;
+    align-items: center;
+    border-bottom: medium solid red;
+    border-bottom-color: red;
 }
 
 .App-body {
-	margin-left: 5rem;
-	margin-top: 5rem;
+    padding: 2% 3% ;
+    height: 480px;
 }
 
 .App-footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	border-top: 3px #e0354b solid;
+    text-align: center;
+    border-top: solid red;
 }
 
-.App-footer p {
-	text-align: center;
-	font-style: italic;
+.App-logo {
+    width: 240px;
+    height: 240px;
 }
