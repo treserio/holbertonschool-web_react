@@ -1,0 +1,17 @@
+.App-body {
+    padding: 2% 3% ;
+    height: 480px;
+}
+
+.App-footer {
+    text-align: center;
+    border-top: solid red;
+}
+
+.App-body label {
+    margin-right: 25px;
+}
+
+#email, #password {
+    margin-left: 10px;
+}
