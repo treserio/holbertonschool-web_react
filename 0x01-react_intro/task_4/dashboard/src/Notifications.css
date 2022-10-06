@@ -1,18 +1,13 @@
-div {
-	margin: 1.5rem;
-	padding: 1rem;
-}
-
 .Notifications {
 	border: 1px red dashed;
 	padding: 1rem;
-	margin: 0;
+	margin: 1rem;
 }
 
-li[data-priority="default"] {
+[data-priority="default"] {
 	color: blue;
 }
 
-li[data-priority="urgent"] {
+[data-priority="urgent"] {
 	color: red;
 }

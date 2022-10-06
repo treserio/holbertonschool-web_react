@@ -6,7 +6,8 @@ import { assert } from 'chai';
 
 describe('App', () => {
   it('renders without crashing', () => {
-    shallow(<App />);
+    const app = shallow(<App />);
+    assert.equal(app.length, 1);
   });
 
   it('renders the right header', () => {
