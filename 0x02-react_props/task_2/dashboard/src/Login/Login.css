@@ -1,0 +1,8 @@
+.Login label {
+    margin-right: 25px;
+}
+
+.Login #email,
+.Login #password {
+    margin-left: 10px;
+}
