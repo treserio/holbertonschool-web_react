@@ -7,14 +7,14 @@ import chai from 'chai';
 chai.use(require('chai-string'));
 
 
-describe('Footer', () => {
+describe('Footer Renders', () => {
   const footer = shallow(<Footer />);
 
-  it('renders without crashing', () => {
+  it('without crashing', () => {
     chai.assert.equal(footer.length, 1);
   });
 
-  it('the text starts with "Copyright"', () => {
+  it('"Copyright" within the p element', () => {
     chai.assert.startsWith(footer.find('p').text(), 'Copyright');
   });
 

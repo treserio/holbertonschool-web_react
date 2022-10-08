@@ -9,3 +9,15 @@
     width: 240px;
     height: 240px;
 }
+
+#Notifications {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    position: absolute;
+    right: 0;
+}
+
+.menuItem {
+    margin-right: 1rem;
+}

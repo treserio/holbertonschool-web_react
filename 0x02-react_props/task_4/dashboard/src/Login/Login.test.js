@@ -4,14 +4,14 @@ import Login from './Login';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
 
-describe('Login', () => {
+describe('Login Renders ', () => {
   const login = shallow(<Login />);
 
-  it('renders without crashing', () => {
+  it('without crashing', () => {
     assert.equal(login.length, 1);
   });
 
-  it('reders 2 label tags & 3 input tags', () => {
+  it('label tags x2 & input tags x3', () => {
     assert.equal(login.find('label').length, 2);
     assert.equal(login.find('input').length, 3);
   });

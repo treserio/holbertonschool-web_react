@@ -4,36 +4,61 @@ import App from './App';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
 
-describe('App', () => {
+describe('App Renders', () => {
   const app = shallow(<App />);
   const header = app.find('.App-header');
   const body = app.find('.App-body');
   const footer = app.find('.App-footer');
-  const notification = app.find('Notifications').render();
-  const headerRender = header.find('Header').render();
-  const loginRender = body.find('Login').render();
-  const footerRender = footer.find('Footer').render();
+  const notificationsRender = app.find('Notifications').render();
+  const headerRender = app.find('Header').render();
+  const loginRender = app.find('Login').render();
+  const courseListRender = app.find('CourseList');
+  const footerRender = app.find('Footer').render();
 
-  it('renders without crashing', () => {
+  it('without crashing', () => {
     assert.equal(app.length, 1);
   });
 
-  it('renders the header', () => {
+  it('the header', () => {
     assert.equal(header.length, 1);
   });
 
-  it('renders the body', () => {
+  it('the body', () => {
     assert.equal(body.length, 1);
   });
 
-  it('renders the footer', () => {
+  it('the footer', () => {
     assert.equal(footer.length, 1);
   });
 
-  it('confirm children components render correctly', () => {
-    assert.equal(notification.length, 1);
+  it('children that render correctly', () => {
+    assert.isOk(notificationsRender.hasClass('menuItem'));
+    assert.equal(notificationsRender.length, 1);
     assert.equal(headerRender.length, 2);
     assert.equal(loginRender.length, 2);
     assert.equal(footerRender.length, 1);
+  });
+
+  it('NOT the CourseList', () => {
+    assert.equal(courseListRender.length, 0);
+  });
+});
+
+describe('Logged in App Renders', () => {
+  const app = shallow(<App isLoggedIn={true} />);
+  const body = app.find('.App-body');
+  const login = body.find('Login');
+  const courseListRender = body.find('CourseList').render()[0];
+
+  it('without crashing', () => {
+    assert.equal(app.length, 1);
+  });
+
+  it('the CourseList', () => {
+    assert.equal(courseListRender.name, 'table');
+  });
+
+  it('NOT the Login', () => {
+    assert.equal(login.length, 0);
   });
 });
