@@ -33,7 +33,7 @@ describe('App Renders', () => {
 
   it('children that render correctly', () => {
     assert.isOk(notificationsRender.hasClass('menuItem'));
-    assert.equal(notificationsRender.length, 1);
+    assert.equal(notificationsRender.length, 2);
     assert.equal(headerRender.length, 2);
     assert.equal(loginRender.length, 2);
     assert.equal(footerRender.length, 1);

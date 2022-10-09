@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Notifications.css';
 import NotificationItem from './NotificationItem';
 import closeIcon from '../assets/close-icon.png';
-import { getLatestNotification } from '../utils/utils';
+import NotificationItemShape from './NotificationItemShape'
 
 export default class Notifications extends React.Component {
   render () {
@@ -14,9 +14,15 @@ export default class Notifications extends React.Component {
         (<div className='Notifications' >
           <p>Here is the list of notifications</p>
           <ul>
-            <NotificationItem type='default' value='New course available' />
-            <NotificationItem type='urgent' value='New resume available' />
-            <NotificationItem type='urgent' html={{ __html: getLatestNotification() }} />
+            {
+              this.props.listNotifications.length ?
+                this.props.listNotifications.map((note) =>
+                  note.html ?
+                    <NotificationItem key={note.id} type={note.type} html={note.html} />
+                  : <NotificationItem key={note.id} type={note.type} value={note.value} />
+                )
+              : <p>No new notification for now</p>
+            }
           </ul>
           <button
             style={{
@@ -31,7 +37,7 @@ export default class Notifications extends React.Component {
           >
             <img src={closeIcon} height="15px" width="15" alt="close icon" />
           </button>
-        </div>)}
+        </div>) }
       </React.Fragment>
     );
   }
@@ -39,8 +45,10 @@ export default class Notifications extends React.Component {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
+  listNotifications: PropTypes.arrayOf(NotificationItemShape)
 }
 
 Notifications.defaultProps = {
   displayDrawer: false,
+  listNotifications: []
 }

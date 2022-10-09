@@ -10,7 +10,6 @@ export default function NotificationsItem({type, html, value}) {
 
 NotificationsItem.propTypes = {
   html: PropTypes.shape({ __html: PropTypes.string }),
-  // html: PropTypes.string,
   type: PropTypes.string.isRequired,
   value: PropTypes.string,
 }
