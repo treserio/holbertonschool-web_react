@@ -11,33 +11,35 @@ export default class Notifications extends React.Component {
       <React.Fragment>
         <div className='menuItem'>Your notifications</div>
         {this.props.displayDrawer &&
-        (<div className='Notifications' >
-          <p>Here is the list of notifications</p>
-          <ul>
-            {
-              this.props.listNotifications.length ?
-                this.props.listNotifications.map((note) =>
-                  note.html ?
-                    <NotificationItem key={note.id} type={note.type} html={note.html} />
-                  : <NotificationItem key={note.id} type={note.type} value={note.value} />
-                )
+          <div className='Notifications' >
+            {this.props.listNotifications.length ?
+              <React.Fragment>
+                <p>Here is the list of notifications</p>
+                <ul>
+                  {this.props.listNotifications.map((note) =>
+                    note.html ?
+                      <NotificationItem key={note.id} type={note.type} html={note.html} />
+                    : <NotificationItem key={note.id} type={note.type} value={note.value} />
+                  )}
+                </ul>
+              </React.Fragment>
               : <p>No new notification for now</p>
             }
-          </ul>
-          <button
-            style={{
-              border: 0,
-              background: 'white',
-              position: 'absolute',
-              right: '25px',
-              top: '45px',
-            }}
-            aria-label="Close"
-            onClick={() => console.log('Close button has been clicked')}
-          >
-            <img src={closeIcon} height="15px" width="15" alt="close icon" />
-          </button>
-        </div>) }
+            <button
+              style={{
+                border: 0,
+                background: 'white',
+                position: 'absolute',
+                right: '25px',
+                top: '45px',
+              }}
+              aria-label="Close"
+              onClick={() => console.log('Close button has been clicked')}
+            >
+              <img src={closeIcon} height="15px" width="15" alt="close icon" />
+            </button>
+          </div>
+        }
       </React.Fragment>
     );
   }

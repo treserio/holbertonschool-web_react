@@ -55,7 +55,7 @@ describe('Notifications Renders', () => {
   });
 
   it('With displayDrawer & Not listNotifications: ul with 1 li and correct text', () => {
-    assert.equal(noListNotes.find('ul').children().length, 1);
-    assert.equal(noListNotes.find('ul').find('p').text(), 'No new notification for now');
+    assert.equal(noListNotes.find('ul').length, 0);
+    assert.equal(noListNotes.find('p').text(), 'No new notification for now');
   });
 });
