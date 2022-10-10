@@ -1,5 +1,5 @@
 {
-	"name": "task_5",
+	"name": "0x03_task_0",
 	"version": "1.0.0",
 	"description": "",
 	"main": "./src/index.js",
@@ -7,7 +7,8 @@
 		"start": "webpack serve --hot --mode development --config config/webpack.config.js --open",
 		"build": "webpack-dev-server --mode production --hot --config config/webpack.config.js",
 		"test": "jest",
-		"wtest": "jest --watch"
+		"wtest": "jest --watch",
+        "test-watch": "jest --watch"
 	},
 	"author": "",
 	"license": "ISC",
