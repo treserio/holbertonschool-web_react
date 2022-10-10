@@ -5,7 +5,8 @@ import { shallow } from 'enzyme';
 import { assert } from 'chai';
 
 describe('App Renders', () => {
-  const app = shallow(<App logOut={logout} />);
+  const logout = jest.fn();
+  const app = shallow(<App logout={() => {}} />);
   const header = app.find('.App-header');
   const body = app.find('.App-body');
   const footer = app.find('.App-footer');
@@ -41,10 +42,22 @@ describe('App Renders', () => {
     assert.equal(footerRender.length, 1);
   });
 
-  it('an alert and calls the function logout when ctrl-h pressed', () => {
-    app.instance().handleKeydown({ ctrlKey: true, key: 'h' });
+  console.log(app.props())
+  console.log(app.props().children.props.children)
+  console.log(app.instance())
+  console.log(app.instance().props.logout)
+
+
+  it('an alert and calls the function logout when ctrl-h is pressed', () => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    console.log(app.instance().props.logout)
+    const thing = jest.spyOn(app.instance().props.logout);
+    app.instance().props.logout({ ctrlKey: true, key: 'h' });
+    expect(thing).toHaveBeenCalled();
     expect(alert).toHaveBeenCalled();
-    alert.mockRestore();
+    app.simulate("keydown", { ctrlKey: true, key: 'h' });
+    expect(logout).toHaveBeenCalled();
+    expect(alert).toHaveBeenCalled();
   });
 
   it('NOT the CourseList', () => {

@@ -20,22 +20,22 @@ const listNotifications = [
   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
 ];
 
-const logoutListener = (event) => {
-  if (event.ctrlKey && event.key === 'h') {
-    alert('Logging you out');
-    this.props.logout();
-  }
-};
-
 export default class App extends React.Component {
   componentDidMount() {
-    console.log('mounting');
-    document.addEventListener('keydown', logoutListener);
+    // console.log('mounting');
+    document.addEventListener('keydown', this.logoutListener);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', logoutListener);
+    document.removeEventListener('keydown', this.logoutListener);
   }
+
+  logoutListener(event) {
+    if (event.ctrlKey && event.key === 'h') {
+      alert('Logging you out');
+      this.props.logout();
+    }
+  };
 
   render () {
     return (

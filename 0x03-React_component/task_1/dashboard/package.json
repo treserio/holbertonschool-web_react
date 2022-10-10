@@ -7,7 +7,8 @@
 		"start": "webpack serve --hot --mode development --config config/webpack.config.js --open",
 		"build": "webpack-dev-server --mode production --hot --config config/webpack.config.js",
 		"test": "jest",
-		"wtest": "jest --watch"
+		"wtest": "jest --watch",
+        "test-watch": "jest --watch"
 	},
 	"author": "",
 	"license": "ISC",
@@ -41,6 +42,7 @@
 		"moduleNameMapper": {
 			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "babel-jest",
 			"\\.(css|less)$": "<rootDir>/config/setupTests.js"
-		}
+		},
+        "testEnvironment": "jsdom"
 	}
 }
