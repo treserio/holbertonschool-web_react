@@ -8,7 +8,7 @@
 		"build": "webpack-dev-server --mode production --hot --config config/webpack.config.js",
 		"test": "jest",
 		"wtest": "jest --watch",
-        "test-watch": "jest --watch"
+		"test-watch": "jest --watch"
 	},
 	"author": "",
 	"license": "ISC",
@@ -33,7 +33,8 @@
 		"enzyme-adapter-react-16": "^1.15.6",
 		"prop-types": "^15.8.1",
 		"react": "^16.13.0",
-		"react-dom": "^16.13.0"
+		"react-dom": "^16.13.0",
+		"task_5": "file:../../task_2/dashboard"
 	},
 	"jest": {
 		"setupFilesAfterEnv": [
@@ -43,6 +44,6 @@
 			"\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "babel-jest",
 			"\\.(css|less)$": "<rootDir>/config/setupTests.js"
 		},
-        "testEnvironment": "jsdom"
+		"testEnvironment": "jsdom"
 	}
 }
