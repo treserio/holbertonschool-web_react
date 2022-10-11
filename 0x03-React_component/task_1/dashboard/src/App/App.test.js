@@ -5,8 +5,10 @@ import { shallow } from 'enzyme';
 import { assert } from 'chai';
 
 describe('App Renders', () => {
-  const logout = jest.fn();
-  const app = shallow(<App logout={() => {}} />);
+  const logout = jest.fn(() => console.log('logout running'));
+  const alert = jest.spyOn(global, 'alert');
+
+  const app = shallow(<App logout={logout} />);
   const header = app.find('.App-header');
   const body = app.find('.App-body');
   const footer = app.find('.App-footer');
@@ -15,8 +17,6 @@ describe('App Renders', () => {
   const loginRender = app.find('Login').render();
   const courseListRender = app.find('CourseList');
   const footerRender = app.find('Footer').render();
-
-  const alert = jest.spyOn(global, 'alert');
 
   it('without crashing', () => {
     assert.equal(app.length, 1);
@@ -42,22 +42,12 @@ describe('App Renders', () => {
     assert.equal(footerRender.length, 1);
   });
 
-  console.log(app.props())
-  console.log(app.props().children.props.children)
-  console.log(app.instance())
-  console.log(app.instance().props.logout)
-
-
   it('an alert and calls the function logout when ctrl-h is pressed', () => {
     jest.spyOn(window, 'alert').mockImplementation(() => {});
-    console.log(app.instance().props.logout)
-    const thing = jest.spyOn(app.instance().props.logout);
-    app.instance().props.logout({ ctrlKey: true, key: 'h' });
-    expect(thing).toHaveBeenCalled();
+    document.dispatchEvent(new KeyboardEvent("keydown", { ctrlKey: true, key: 'h' }));
     expect(alert).toHaveBeenCalled();
-    app.simulate("keydown", { ctrlKey: true, key: 'h' });
+    expect(alert).toHaveBeenCalledWith('Logging you out');
     expect(logout).toHaveBeenCalled();
-    expect(alert).toHaveBeenCalled();
   });
 
   it('NOT the CourseList', () => {

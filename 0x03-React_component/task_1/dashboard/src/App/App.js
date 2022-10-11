@@ -21,8 +21,15 @@ const listNotifications = [
 ];
 
 export default class App extends React.Component {
+  logoutListener = (event) => {
+    if (event.ctrlKey && event.key === 'h') {
+      // console.log("running logoutListener")
+      alert('Logging you out');
+      this.props.logout();
+    }
+  };
+
   componentDidMount() {
-    // console.log('mounting');
     document.addEventListener('keydown', this.logoutListener);
   }
 
@@ -30,12 +37,7 @@ export default class App extends React.Component {
     document.removeEventListener('keydown', this.logoutListener);
   }
 
-  logoutListener(event) {
-    if (event.ctrlKey && event.key === 'h') {
-      alert('Logging you out');
-      this.props.logout();
-    }
-  };
+
 
   render () {
     return (
