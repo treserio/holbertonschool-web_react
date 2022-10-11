@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 import BodySection from '../BodySection/BodySection';
+import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import CourseList from '../CourseList/CourseList';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -49,7 +50,17 @@ export default class App extends React.Component {
             </div>
           </header>
           <div className='App-body'>
-            {this.props.isLoggedIn ? <CourseList listCourses={listCourses} /> : <Login />}
+            {this.props.isLoggedIn ?
+              <BodySectionWithMarginBottom title='Course list'>
+                <CourseList listCourses={listCourses} />
+              </BodySectionWithMarginBottom>
+              : <BodySectionWithMarginBottom title='Log in to continue'>
+                  <Login />
+                </BodySectionWithMarginBottom>
+            }
+            <BodySection title="News from the School">
+              <p>my balognia has a first name...</p>
+            </BodySection>
           </div>
           <footer className='App-footer'>
             <Footer />

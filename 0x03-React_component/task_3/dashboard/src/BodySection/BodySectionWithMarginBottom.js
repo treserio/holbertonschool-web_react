@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BodySection from './BodySection';
+import './BodySection.css'
 
 export default class BodySectionWithMarginBottom extends React.Component {
   render() {
     return (
-      <React.Fragment>
-        <div className='bodySection'>
-          <h2>{this.props.title}</h2>
-          {this.props.children}
-        </div>
-      </React.Fragment>
+      <div className='bodySectionWithMargin'>
+        <BodySection {...this.props} />
+      </div>
     )
   }
 }
 
 BodySectionWithMarginBottom.propTypes = {
   title: PropTypes.string.isRequired,
+  // children are a built in property, these aren't manually set
 }
