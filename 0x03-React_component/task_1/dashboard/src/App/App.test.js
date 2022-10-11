@@ -8,7 +8,7 @@ describe('App Renders', () => {
   const logout = jest.fn(() => console.log('logout running'));
   const alert = jest.spyOn(global, 'alert');
 
-  const app = shallow(<App logout={logout} />);
+  const app = shallow(<App logOut={logout} />);
   const header = app.find('.App-header');
   const body = app.find('.App-body');
   const footer = app.find('.App-footer');

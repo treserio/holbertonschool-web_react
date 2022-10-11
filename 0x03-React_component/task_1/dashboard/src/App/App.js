@@ -25,7 +25,7 @@ export default class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       // console.log("running logoutListener")
       alert('Logging you out');
-      this.props.logout();
+      this.props.logOut();
     }
   };
 
@@ -63,10 +63,10 @@ export default class App extends React.Component {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
-  logout: PropTypes.func,
+  logOut: PropTypes.func,
 };
 
 App.defaultProps = {
   isLoggedIn: false,
-  logout: () => {},
+  logOut: () => {},
 };
