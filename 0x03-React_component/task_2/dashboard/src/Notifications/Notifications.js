@@ -6,6 +6,8 @@ import closeIcon from '../assets/close-icon.png';
 import NotificationItemShape from './NotificationItemShape'
 
 export default class Notifications extends React.Component {
+  markAsRead = (id) => console.log(`Notification ${id} has been marked as read`);
+
   render () {
     return (
       <React.Fragment>
@@ -18,8 +20,8 @@ export default class Notifications extends React.Component {
                 <ul>
                   {this.props.listNotifications.map((note) =>
                     note.html ?
-                      <NotificationItem key={note.id} type={note.type} html={note.html} />
-                    : <NotificationItem key={note.id} type={note.type} value={note.value} />
+                      <NotificationItem key={note.id} id={note.id} type={note.type} html={note.html} markAsRead={() => this.markAsRead(note.id)} />
+                    : <NotificationItem key={note.id} id={note.id} type={note.type} value={note.value} markAsRead={() => this.markAsRead(note.id)} />
                   )}
                 </ul>
               </React.Fragment>

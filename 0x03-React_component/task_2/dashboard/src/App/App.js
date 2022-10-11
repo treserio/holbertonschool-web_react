@@ -37,8 +37,6 @@ export default class App extends React.Component {
     document.removeEventListener('keydown', this.logoutListener);
   }
 
-
-
   render () {
     return (
       <React.Fragment>
