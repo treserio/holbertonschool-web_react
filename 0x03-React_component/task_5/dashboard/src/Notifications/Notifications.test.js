@@ -10,6 +10,19 @@ const listNotifications = [
   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
 ];
 
+const sameLN = [
+  { id: 1, type: 'default', value: 'Test 999' },
+  { id: 2, type: 'urgent', value: 'Test 998' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+];
+
+const biggerLN = [
+  { id: 1, type: 'default', value: 'Test 1' },
+  { id: 2, type: 'urgent', value: 'Test 2' },
+  { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+  { id: 4, type: 'default', value: 'Test 4' },
+];
+
 describe('Notifications Renders', () => {
   // add test for displayDrawer={false}
   const notificationsOn = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
@@ -59,7 +72,11 @@ describe('Notifications Renders', () => {
     assert.equal(noListNotes.find('p').text(), 'No new notification for now');
   });
 
-  it('an update when listNotifications.length > previous, else Not', () => {
+  it('an update when listNotifications.length > previous, else No update', () => {
     expect(notificationsOn.instance().shouldComponentUpdate({listNotifications: []})).toBe(false);
+    // setProps is changing the length of the children when shouldComponentUpdate = false
+    expect(notificationsOn.instance().shouldComponentUpdate({listNotifications: sameLN})).toBe(false);
+    expect(notificationsOn.instance().shouldComponentUpdate({listNotifications: biggerLN})).toBe(true);
+    expect(notificationsOn.setProps({listNotifications: biggerLN}).find('ul').children().length).toBe(4);
   });
 });
