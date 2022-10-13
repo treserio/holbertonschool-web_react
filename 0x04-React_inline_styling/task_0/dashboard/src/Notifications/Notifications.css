@@ -12,15 +12,6 @@
 	color: red;
 }
 
-th {
-    border-bottom: 2px solid gray;
-}
-
-tr:nth-child(n + 2) th {
-    text-align: left;
-}
-
-table {
-    border: 1px solid gray;
-    width: 100%;
+.Notifications li {
+    font-weight: bold;
 }

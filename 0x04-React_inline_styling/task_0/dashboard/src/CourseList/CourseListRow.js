@@ -3,20 +3,29 @@ import PropTypes from 'prop-types';
 
 export default class CourseListRow extends React.Component {
   render() {
+    const style = {
+      tr: {
+        backgroundColor: '#f5f5f5ab',
+      },
+      tr_th: {
+        backgroundColor: '#deb5b545',
+      }
+    }
+
     if (this.props.isHeader) {
       if (this.props.textSecondCell) {
         return (
-          <tr>
+          <tr style={style.tr_th} >
             <th>{this.props.textFirstCell}</th>
             <th>{this.props.textSecondCell}</th>
           </tr>
         );
       } else {
-        return ( <tr><th colSpan="2">{this.props.textFirstCell}</th></tr> );
+        return ( <tr style={style.th}><th colSpan="2">{this.props.textFirstCell}</th></tr> );
       }
     } else {
       return (
-        <tr>
+        <tr style={style.tr} >
           <td>{this.props.textFirstCell}</td>
           <td>{this.props.textSecondCell}</td>
         </tr>
