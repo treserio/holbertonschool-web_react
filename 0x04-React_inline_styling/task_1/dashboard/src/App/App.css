@@ -1,0 +1,13 @@
+/* .App-body {
+    padding: 2% 3% ;
+    height: 480px;
+}
+
+.App-footer {
+    text-align: center;
+    border-top: solid red;
+} */
+
+[class^=App-body] {
+    background-color: purple;
+}

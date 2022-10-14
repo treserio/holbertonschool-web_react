@@ -1,0 +1,14 @@
+#CourseList {
+    border: 1px solid gray;
+    width: 100%;
+    border-collapse:collapse
+}
+
+#CourseList th {
+    border-bottom: 2px solid gray;
+}
+
+#CourseList tr:nth-child(n + 2) th {
+    text-align: left;
+}
+
