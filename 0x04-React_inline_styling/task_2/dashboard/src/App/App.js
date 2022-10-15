@@ -46,53 +46,28 @@ export default class App extends React.Component {
         padding: '2% 3%',
         height: '480px',
       },
-      header: {
-        display: 'flex',
-        alignItems: 'center',
-        borderBottom: 'medium solid red',
-        borderBottomColor: 'red',
-      },
-      foot: {
-        textAlign: 'center',
-        borderTop: 'solid red',
-      },
-      notes: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'end',
-        position: 'absolute',
-        right: 0,
-      }
     });
 
     return (
-      <React.Fragment>
-        <div className="App">
-          <header className={`App-header ${css(style.header)}`} >
-            <Header />
-            <div className={css(style.notes)}>
-              <Notifications displayDrawer={true} listNotifications={listNotifications} />
-            </div>
-          </header>
-          <div className={`App-body ${css(style.body)}`}>
-            {this.props.isLoggedIn ?
-              <BodySectionWithMarginBottom title='Course list'>
-                <CourseList listCourses={listCourses} />
+      <div className="App">
+        <Notifications displayDrawer={true} listNotifications={listNotifications} />
+        <Header />
+        <div className={`App-body ${css(style.body)}`}>
+          {this.props.isLoggedIn ?
+            <BodySectionWithMarginBottom title='Course list'>
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
+            : <BodySectionWithMarginBottom title='Log in to continue'>
+                <Login />
               </BodySectionWithMarginBottom>
-              : <BodySectionWithMarginBottom title='Log in to continue'>
-                  <Login />
-                </BodySectionWithMarginBottom>
-            }
-            <BodySection title='News from the School'>
-              <p>my balognia has a first name...</p>
-              < WithLogging Wrapped={<Login />} />
-            </BodySection>
-          </div>
-          <footer className={`App-footer ${css(style.foot)}`}>
-            <Footer />
-          </footer>
+          }
+          <BodySection title='News from the School'>
+            <p>my balognia has a first name...</p>
+            < WithLogging Wrapped={<Login />} />
+          </BodySection>
         </div>
-      </React.Fragment>
+        <Footer />
+      </div>
     );
   }
 }

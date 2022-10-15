@@ -21,10 +21,17 @@ export default class Notifications extends React.Component {
         padding: '1rem',
         margin: '1rem',
       },
+      notes: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'end',
+        position: 'absolute',
+        right: 0,
+      },
     });
 
     return (
-      <React.Fragment>
+      <div className={css(style.notes)}>
         <div className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
@@ -32,6 +39,7 @@ export default class Notifications extends React.Component {
               <React.Fragment>
                 <p>Here is the list of notifications</p>
                 <ul>
+                  {/* enject list of notifications */}
                   {this.props.listNotifications.map((note) =>
                     note.html ?
                       <NotificationItem key={note.id} id={note.id} type={note.type} html={note.html} />
@@ -56,7 +64,7 @@ export default class Notifications extends React.Component {
             </button>
           </div>
         }
-      </React.Fragment>
+      </div>
     );
   }
 }

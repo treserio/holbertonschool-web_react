@@ -3,10 +3,20 @@ import ReactDOM from 'react-dom';
 import Footer from './Footer';
 import { shallow } from 'enzyme';
 import chai from 'chai';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 chai.use(require('chai-string'));
 
 describe('Footer Renders', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   const footer = shallow(<Footer />);
 
   it('without crashing', () => {

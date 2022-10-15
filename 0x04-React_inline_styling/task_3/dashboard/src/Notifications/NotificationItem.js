@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { nominalTypeHack } from 'prop-types';
 import { css, StyleSheet } from 'aphrodite';
 
 function NotificationItem({ markAsRead, type, value, html, id }) {
@@ -7,6 +7,11 @@ function NotificationItem({ markAsRead, type, value, html, id }) {
     li: {
       color: type === 'urgent' ? 'red' : 'blue',
       fontWeight: 'bold',
+      '@media (max-width: 900px)': {
+        borderBottom: '1px solid black',
+        padding: '10px 8px',
+        listStyle: 'none',
+      }
     },
   });
 
