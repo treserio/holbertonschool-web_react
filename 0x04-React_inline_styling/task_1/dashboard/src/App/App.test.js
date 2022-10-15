@@ -21,10 +21,10 @@ describe('App Renders', () => {
   const alert = jest.spyOn(global, 'alert');
 
   const app = shallow(<App logOut={logout} />);
-  const header = app.find('.App-header');
+  const header = app.find('Header');
   const body = app.find('.App-body');
-  const footer = app.find('.App-footer');
-  const notificationsRender = app.find('Notifications').render();
+  const footer = app.find('Footer');
+  const notificationsRender = app.find('Notifications').render().children();
   const headerRender = app.find('Header').render();
   const loginRender = app.find('Login').render();
   const courseListRender = app.find('CourseList');
@@ -47,9 +47,9 @@ describe('App Renders', () => {
   });
 
   it('children that render correctly', () => {
-    assert.isOk(notificationsRender.hasClass('menuItem'));
+    expect(notificationsRender[0].attribs.class).toContain('menuItem');
     assert.equal(notificationsRender.length, 2);
-    assert.equal(headerRender.length, 2);
+    assert.equal(headerRender.children().length, 2);
     assert.equal(loginRender.length, 2);
     assert.equal(footerRender.length, 1);
   });

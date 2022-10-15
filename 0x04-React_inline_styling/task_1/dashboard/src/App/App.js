@@ -49,27 +49,25 @@ export default class App extends React.Component {
     });
 
     return (
-      <React.Fragment>
-        <div className="App">
-          <Notifications displayDrawer={true} listNotifications={listNotifications} />
-          <Header />
-          <div className={`App-body ${css(style.body)}`}>
-            {this.props.isLoggedIn ?
-              <BodySectionWithMarginBottom title='Course list'>
-                <CourseList listCourses={listCourses} />
+      <div className="App">
+        <Notifications displayDrawer={true} listNotifications={listNotifications} />
+        <Header />
+        <div className={`App-body ${css(style.body)}`}>
+          {this.props.isLoggedIn ?
+            <BodySectionWithMarginBottom title='Course list'>
+              <CourseList listCourses={listCourses} />
+            </BodySectionWithMarginBottom>
+            : <BodySectionWithMarginBottom title='Log in to continue'>
+                <Login />
               </BodySectionWithMarginBottom>
-              : <BodySectionWithMarginBottom title='Log in to continue'>
-                  <Login />
-                </BodySectionWithMarginBottom>
-            }
-            <BodySection title='News from the School'>
-              <p>my balognia has a first name...</p>
-              < WithLogging Wrapped={<Login />} />
-            </BodySection>
-          </div>
-          <Footer />
+          }
+          <BodySection title='News from the School'>
+            <p>my balognia has a first name...</p>
+            < WithLogging Wrapped={<Login />} />
+          </BodySection>
         </div>
-      </React.Fragment>
+        <Footer />
+      </div>
     );
   }
 }

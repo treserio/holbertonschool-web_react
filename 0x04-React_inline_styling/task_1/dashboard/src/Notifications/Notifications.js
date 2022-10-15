@@ -39,6 +39,7 @@ export default class Notifications extends React.Component {
               <React.Fragment>
                 <p>Here is the list of notifications</p>
                 <ul>
+                  {/* enject list of notifications */}
                   {this.props.listNotifications.map((note) =>
                     note.html ?
                       <NotificationItem key={note.id} id={note.id} type={note.type} html={note.html} />
