@@ -52,7 +52,7 @@ export default class App extends React.Component {
         borderBottom: 'medium solid red',
         borderBottomColor: 'red',
       },
-      footer: {
+      foot: {
         textAlign: 'center',
         borderTop: 'solid red',
       },
@@ -88,7 +88,7 @@ export default class App extends React.Component {
               < WithLogging Wrapped={<Login />} />
             </BodySection>
           </div>
-          <footer className={`App-footer ${css(style.footer)}`}>
+          <footer className={`App-footer ${css(style.foot)}`}>
             <Footer />
           </footer>
         </div>
