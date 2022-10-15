@@ -3,8 +3,18 @@ import ReactDOM from 'react-dom';
 import Header from './Header';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 describe('Header Renders', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   const header = shallow(<Header />);
 
   it('without crashing', () => {

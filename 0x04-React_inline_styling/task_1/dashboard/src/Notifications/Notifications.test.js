@@ -3,6 +3,7 @@ import Notifications from './Notifications';
 import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 import { getLatestNotification } from '../utils/utils';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 const listNotifications = [
   { id: 1, type: 'default', value: 'Test 1' },
@@ -24,6 +25,15 @@ const biggerLN = [
 ];
 
 describe('Notifications Renders', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   // setProps will process on shallow, need to use mount
   const notificationsOn = mount(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
   const notificationsOff = shallow(<Notifications />);

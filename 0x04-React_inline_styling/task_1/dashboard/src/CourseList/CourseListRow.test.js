@@ -2,8 +2,18 @@ import React from 'react';
 import CourseListRow from './CourseListRow';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 describe('CourseListRow Renders', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   const colSpan2 = shallow(<CourseListRow isHeader={true} textFirstCell='colSpan=2' />);
   const th2 = shallow(<CourseListRow isHeader={true} textFirstCell='First th' textSecondCell='Second th' />);
   const td2 = shallow(<CourseListRow textFirstCell='First td' textSecondCell='Second td' />);

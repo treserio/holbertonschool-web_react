@@ -3,8 +3,18 @@ import ReactDOM from 'react-dom';
 import Login from './Login';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 describe('Login Renders ', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   const login = shallow(<Login />);
 
   it('without crashing', () => {

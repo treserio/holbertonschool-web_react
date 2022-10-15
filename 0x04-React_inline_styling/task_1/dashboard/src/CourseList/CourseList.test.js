@@ -2,6 +2,7 @@ import React from 'react';
 import CourseList from './CourseList';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
+import { StyleSheetTestUtils } from 'aphrodite';
 
 const listCourses = [
   { id: '1', name: 'Test 1', credit: 10 },
@@ -10,6 +11,15 @@ const listCourses = [
 ];
 
 describe('CourseList Renders', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
   const courseList = shallow(<CourseList />);
   const rows = courseList.find('CourseListRow');
 

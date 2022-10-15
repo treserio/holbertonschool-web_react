@@ -8,6 +8,7 @@ import { StyleSheetTestUtils } from 'aphrodite';
 global.console.log = jest.fn()
 
 describe('App Renders', () => {
+
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
