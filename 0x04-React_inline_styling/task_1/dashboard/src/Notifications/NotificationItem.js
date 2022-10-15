@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { css, StyleSheet } from 'aphrodite';
 
 function NotificationItem({ markAsRead, type, value, html, id }) {
+  const style = StyleSheet.create({
+    li: {
+      color: type === 'urgent' ? 'red' : 'blue',
+      fontWeight: 'bold',
+    },
+  });
+
   if (value) {
-    return ( <li data-priority={type} onClick={() => markAsRead(id)}>{value}</li> );
+    return ( <li className={css(style.li)} data-priority={type} onClick={() => markAsRead(id)}>{value}</li> );
   }
-  return ( <li data-priority={type} dangerouslySetInnerHTML={html} onClick={() => markAsRead(id)}/> );
+  return ( <li className={css(style.li)} data-priority={type} dangerouslySetInnerHTML={html} onClick={() => markAsRead(id)}/> );
 }
 
 NotificationItem.propTypes = {

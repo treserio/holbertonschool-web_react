@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css, StyleSheet } from 'aphrodite';
-// import './App.css';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import CourseList from '../CourseList/CourseList';
@@ -24,17 +23,6 @@ const listNotifications = [
   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
 ];
 
-const styles = StyleSheet.create({
-  'App-body': {
-      padding: '2% 3%',
-      height: '480px',
-  },
-  '.App-footer': {
-      textAlign: 'center',
-      borderTop: 'solid red',
-  },
-});
-
 export default class App extends React.Component {
   logoutListener = (event) => {
     if (event.ctrlKey && event.key === 'h') {
@@ -53,16 +41,40 @@ export default class App extends React.Component {
   }
 
   render () {
+    const style = StyleSheet.create({
+      body: {
+        padding: '2% 3%',
+        height: '480px',
+      },
+      header: {
+        display: 'flex',
+        alignItems: 'center',
+        borderBottom: 'medium solid red',
+        borderBottomColor: 'red',
+      },
+      foot: {
+        textAlign: 'center',
+        borderTop: 'solid red',
+      },
+      notes: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'end',
+        position: 'absolute',
+        right: 0,
+      }
+    });
+
     return (
       <React.Fragment>
         <div className="App">
-          <header className="App-header">
+          <header className={`App-header ${css(style.header)}`} >
             <Header />
-            <div id='Notifications'>
+            <div className={css(style.notes)}>
               <Notifications displayDrawer={true} listNotifications={listNotifications} />
             </div>
           </header>
-          <div className={`App-body ${css(styles['App-body'])}`}>
+          <div className={`App-body ${css(style.body)}`}>
             {this.props.isLoggedIn ?
               <BodySectionWithMarginBottom title='Course list'>
                 <CourseList listCourses={listCourses} />
@@ -76,7 +88,7 @@ export default class App extends React.Component {
               < WithLogging Wrapped={<Login />} />
             </BodySection>
           </div>
-          <footer className='App-footer'>
+          <footer className={`App-footer ${css(style.foot)}`}>
             <Footer />
           </footer>
         </div>

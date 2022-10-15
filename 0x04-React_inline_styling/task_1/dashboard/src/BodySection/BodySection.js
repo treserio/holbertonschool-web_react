@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 export default class BodySection extends React.Component {
   render() {
     return (
-      <div className='bodySection'>
+      <div className='BodySection'>
         <h2>{this.props.title}</h2>
         {this.props.children}
       </div>

@@ -3,23 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
-import { css, StyleSheet, StyleSheetTestUtils } from 'aphrodite';
-import style from '../css/css';
+import { StyleSheetTestUtils } from 'aphrodite';
 
-// global.console.log = jest.fn()
-
-// const styles = StyleSheet.create({
-//   'App-body': {
-//       padding: '2% 3%',
-//       height: '480px',
-//   },
-//   '.App-footer': {
-//       textAlign: 'center',
-//       borderTop: 'solid red',
-//   },
-// });
-
-console.log('what', style);
+global.console.log = jest.fn()
 
 describe('App Renders', () => {
   beforeEach(() => {
@@ -34,13 +20,8 @@ describe('App Renders', () => {
   const alert = jest.spyOn(global, 'alert');
 
   const app = shallow(<App logOut={logout} />);
-  // console.log(app.props().children)
-  // console.log(app.children().props())
   const header = app.find('.App-header');
-  // console.log(css(styles['App-body']), typeof(css(styles['App-body'])))
-  // console.log(css(styles['App-body']), typeof(css(styles['App-body'])))
-  const body = app.find(`.${css(style['App-body'])}`);
-  console.log('body', body)
+  const body = app.find('.App-body');
   const footer = app.find('.App-footer');
   const notificationsRender = app.find('Notifications').render();
   const headerRender = app.find('Header').render();
@@ -49,10 +30,7 @@ describe('App Renders', () => {
   const footerRender = app.find('Footer').render();
 
   it('without crashing', () => {
-    const app2 = shallow(<App logOut={logout} />);
-    const body2 = app.find(`.${css(style['App-body'])}`);
     assert.equal(app.length, 1);
-    assert.equal(body2.length, 1);
   });
 
   it('the header', () => {
@@ -92,17 +70,15 @@ describe('Logged in App Renders', () => {
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
-  
+
   afterEach(() => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
   const app = shallow(<App isLoggedIn={true} />);
-  const body = app.find('.App-body_1uivo4');
+  const body = app.find('.App-body');
   const login = body.find('Login');
   const courseListRender = body.find('CourseList').render()[0];
-
-  console.log(app)
 
   it('without crashing', () => {
     assert.equal(app.length, 1);

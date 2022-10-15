@@ -6,7 +6,6 @@ import chai from 'chai';
 
 chai.use(require('chai-string'));
 
-
 describe('Footer Renders', () => {
   const footer = shallow(<Footer />);
 
