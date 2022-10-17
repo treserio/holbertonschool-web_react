@@ -8,7 +8,8 @@ import NotificationItemShape from './NotificationItemShape'
 
 export default class Notifications extends React.Component {
   shouldComponentUpdate(nextProps) {
-    return nextProps.listNotifications.length > this.props.listNotifications.length;
+    return this.props.displayDrawer !== nextProps.displayDrawer ? true :
+      nextProps.listNotifications.length > this.props.listNotifications.length;
   }
 
   render () {
@@ -16,6 +17,7 @@ export default class Notifications extends React.Component {
     const bounce = {  '0%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-5px)' }, '100%': { transform: 'translateY(5px)' },};
     // opacity animation
     const fade = {  from: { opacity: 0.5 }, to: { opacity: 1 } };
+    // css styles
     const style = StyleSheet.create({
       close_btn: {
         border: 0,
@@ -31,6 +33,7 @@ export default class Notifications extends React.Component {
         position: 'fixed',
         marginRight: '1rem',
         backgroundColor: '#fff8f8',
+        whiteSpace: 'nowrap',
         '@media (max-width: 900px)': {
           display: 'none',
         },
@@ -78,14 +81,13 @@ export default class Notifications extends React.Component {
 
     return (
       <div className={css(style.wrapper)}>
-        <div className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
             {this.props.listNotifications.length ?
               <React.Fragment>
                 <p>Here is the list of notifications</p>
                 <ul className={css(style.ul)}>
-                  {/* enject list of notifications */}
                   {this.props.listNotifications.map((note) =>
                     note.html ?
                       <NotificationItem key={note.id} id={note.id} type={note.type} html={note.html} />
@@ -95,8 +97,10 @@ export default class Notifications extends React.Component {
               </React.Fragment>
               : <p>No new notification for now</p>
             }
-            <button className={css(style.close_btn)} aria-label="Close"
-              onClick={() => console.log('Close button has been clicked')}
+            <button
+              className={css(style.close_btn)}
+              aria-label="Close"
+              onClick={this.props.handleHideDrawer}
             >
               <img src={closeIcon} height="15px" width="15" alt="close icon" />
             </button>
@@ -109,10 +113,14 @@ export default class Notifications extends React.Component {
 
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
-  listNotifications: PropTypes.arrayOf(NotificationItemShape)
+  listNotifications: PropTypes.arrayOf(NotificationItemShape),
+  handleHideDrawer: PropTypes.func,
+  handleDisplayDrawer: PropTypes.func,
 }
 
 Notifications.defaultProps = {
   displayDrawer: false,
-  listNotifications: []
+  listNotifications: [],
+  handleHideDrawer: () => console.log('handleHideDrawer missing'),
+  handleDisplayDrawer: () => console.log('handleDisplayDrawer missing'),
 }
