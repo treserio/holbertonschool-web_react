@@ -29,16 +29,22 @@ export default class App extends React.Component {
     this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     this.handleHideDrawer = this.handleHideDrawer.bind(this);
     this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
+    this.handleChangeEmail  = this.handleChangeEmail.bind(this);
+    this.handleChangePassword  = this.handleChangePassword.bind(this);
+    this.logoutListener = this.logoutListener.bind(this);
     this.state = {
       displayDrawer: false,
       isLoggedIn: false,
+      email: '',
+      password: '',
+      enableSubmit: false,
     };
   }
 
   handleDisplayDrawer() {
     document.getElementsByClassName('menuItem')[0].style.display = 'none';
     this.setState({ displayDrawer: true });
-    console.log(document.documentElement.clientWidth)
+    // console.log(document.documentElement.clientWidth)
     if (document.documentElement.clientWidth <= 900) {
       document.getElementsByClassName('App-body')[0].style.display = 'none';
     }
@@ -50,8 +56,24 @@ export default class App extends React.Component {
     this.setState({ displayDrawer: false });
   }
 
-  handleLoginSubmit() {
-    this.setState({ isLoggedIn: true });
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    if (this.state.enableSubmit) {
+      this.setState({ isLoggedIn: true });
+    }
+    else alert('Please enter email and password to proceed')
+  }
+
+  handleChangeEmail(event) {
+    this.setState({ email: event.target.value });
+    if (event.target.value && this.state.password) this.state.enableSubmit = true
+    else this.state.enableSubmit = false;
+  }
+
+  handleChangePassword(event) {
+    this.setState({ password: event.target.value });
+    if (this.state.email && event.target.value) this.state.enableSubmit = true
+    else this.state.enableSubmit = false;
   }
 
   componentDidMount() {
@@ -62,11 +84,14 @@ export default class App extends React.Component {
     window.removeEventListener('keydown', this.handleKeydown);
   }
 
-  logoutListener = (event) => {
+  logoutListener(event) {
     if (event.ctrlKey && event.key === 'h') {
       // console.log("running logoutListener")
       alert('Logging you out');
-      this.props.logOut();
+      this.setState({
+        isLoggedIn: false,
+        enableSubmit: false,
+      });
     }
   };
 
@@ -101,12 +126,17 @@ export default class App extends React.Component {
               <CourseList listCourses={listCourses} />
             </BodySectionWithMarginBottom>
             : <BodySectionWithMarginBottom title='Log in to continue'>
-                <Login handleLoginSubmit={this.handleLoginSubmit} />
+                <Login
+                  handleLoginSubmit={this.handleLoginSubmit}
+                  email={this.state.email}
+                  password={this.state.password}
+                  handleChangeEmail={this.handleChangeEmail}
+                  handleChangePassword={this.handleChangePassword}
+                />
               </BodySectionWithMarginBottom>
           }
           <BodySection title='News from the School'>
             <p>my balognia has a first name...</p>
-            < WithLogging Wrapped={<Login />} />
           </BodySection>
         </div>
         <Footer />
@@ -117,10 +147,8 @@ export default class App extends React.Component {
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
-  logOut: PropTypes.func,
 };
 
 App.defaultProps = {
   isLoggedIn: false,
-  logOut: () => {},
 };
