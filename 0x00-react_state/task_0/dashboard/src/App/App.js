@@ -33,12 +33,19 @@ export default class App extends React.Component {
     };
   }
 
-  handleHideDrawer() {
-    this.setState({ displayDrawer: false });
+  handleDisplayDrawer() {
+    document.getElementsByClassName('menuItem')[0].style.display = 'none';
+    this.setState({ displayDrawer: true });
+    console.log(document.documentElement.clientWidth)
+    if (document.documentElement.clientWidth <= 900) {
+      document.getElementsByClassName('App-body')[0].style.display = 'none';
+    }
   }
 
-  handleDisplayDrawer() {
-    this.setState({ displayDrawer: true });
+  handleHideDrawer() {
+    document.getElementsByClassName('menuItem')[0].style.display = 'block';
+    document.getElementsByClassName('App-body')[0].style.display = 'block';
+    this.setState({ displayDrawer: false });
   }
 
   componentDidMount() {
@@ -48,7 +55,6 @@ export default class App extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeydown);
   }
-
 
   logoutListener = (event) => {
     if (event.ctrlKey && event.key === 'h') {

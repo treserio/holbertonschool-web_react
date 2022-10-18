@@ -34,9 +34,6 @@ export default class Notifications extends React.Component {
         marginRight: '1rem',
         backgroundColor: '#fff8f8',
         whiteSpace: 'nowrap',
-        '@media (max-width: 900px)': {
-          display: 'none',
-        },
         ':hover': {
           cursor: 'pointer',
           animationName: [bounce, fade],
@@ -52,8 +49,8 @@ export default class Notifications extends React.Component {
           border: 'none',
           padding: 0,
           margin: 0,
-          height: '100%',
-          width: '100%',
+          height: '100vh',
+          width: '100vw',
           backgroundColor: 'white',
         },
       },
@@ -66,8 +63,6 @@ export default class Notifications extends React.Component {
         margin: 0,
         right: 0,
         '@media (max-width: 900px)': {
-          height: '100%',
-          width: '100%',
           backgroundColor: 'white',
         },
       },
