@@ -1,11 +1,9 @@
 import Immutable from 'immutable';
 
-function getListObject(arr) {
+export function getListObject(arr) {
   return Immutable.List(arr);
 }
 
-function addElementToList(list, element) {
+export function addElementToList(list, element) {
   return list.push(element);
 }
-
-export default { getListObject, addElementToList };
