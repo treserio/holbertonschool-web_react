@@ -7,11 +7,10 @@ global.console.log = jest.fn()
 
 describe('NotificationItem Renders', () => {
   const out = jest.spyOn(console, "log");
-  const NI = shallow(<NotificationItem id={1} />);
-  const typeValue = shallow(<NotificationItem id={2} value='test' />);
-  const typeHtml = shallow(<NotificationItem id={3} type='urgent' html={{ __html: '<u>test</u>' }} />);
+  const NI = shallow(<NotificationItem />);
+  const typeValue = shallow(<NotificationItem value='test' markAsRead={() => console.log('Test 2')} />);
+  const typeHtml = shallow(<NotificationItem type='urgent' html={{ __html: '<u>test</u>' }} markAsRead={() => console.log('Test 3')} />);
 
-  
   it('without crashing', () => {
     assert.equal(NI.length, 1);
     assert.equal(typeValue.length, 1);
@@ -28,10 +27,10 @@ describe('NotificationItem Renders', () => {
 
   it('with onClick function that logs correct text', () => {
     NI.props().onClick();
-    expect(out).toHaveBeenCalledWith('Notification 1 has been marked as read')
+    expect(out).toHaveBeenCalledWith('markAsRead missing');
     typeValue.props().onClick();
-    expect(out).toHaveBeenCalledWith('Notification 2 has been marked as read')
+    expect(out).toHaveBeenCalledWith('Test 2');
     typeHtml.props().onClick();
-    expect(out).toHaveBeenCalledWith('Notification 3 has been marked as read')
+    expect(out).toHaveBeenCalledWith('Test 3');
   });
 });

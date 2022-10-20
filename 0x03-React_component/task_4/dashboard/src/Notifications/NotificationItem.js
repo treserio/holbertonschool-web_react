@@ -22,5 +22,5 @@ NotificationsItem.defaultProps = {
   html: { __html: '' },
   type: 'default',
   value: '',
-  markAsRead: (id) => console.log(`Notification ${id} has been marked as read`),
+  markAsRead: () => console.log(`markAsRead missing`),
 }

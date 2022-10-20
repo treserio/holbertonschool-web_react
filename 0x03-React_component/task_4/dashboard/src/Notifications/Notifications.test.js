@@ -1,8 +1,10 @@
 import React from 'react';
 import Notifications from './Notifications';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 import { getLatestNotification } from '../utils/utils';
+
+global.console.log = jest.fn()
 
 const listNotifications = [
   { id: 1, type: 'default', value: 'Test 1' },
@@ -11,8 +13,13 @@ const listNotifications = [
 ];
 
 describe('Notifications Renders', () => {
-  // add test for displayDrawer={false}
-  const notificationsOn = shallow(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+  const out = jest.spyOn(console, "log");
+  const notificationsOn = shallow(
+    <Notifications
+      displayDrawer={true}
+      listNotifications={listNotifications}
+    />
+  );
   const notificationsOff = shallow(<Notifications />);
   const noListNotes = shallow(<Notifications displayDrawer={true} />);
   const ul = notificationsOn.find('ul');
@@ -59,7 +66,13 @@ describe('Notifications Renders', () => {
     assert.equal(noListNotes.find('p').text(), 'No new notification for now');
   });
 
-  it('an update when listNotifications.length > previous, else Not', () => {
-    expect(notificationsOn.instance().shouldComponentUpdate({listNotifications: []})).toBe(false);
+  it('li items run onClick correctly', () => {
+    const render = mount(<ul>{ul.children()}</ul>);
+    render.find('li').first().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 1 has been marked as read');
+    render.find('li').at(1).simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 2 has been marked as read');
+    render.find('li').last().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 3 has been marked as read');
   });
 });
