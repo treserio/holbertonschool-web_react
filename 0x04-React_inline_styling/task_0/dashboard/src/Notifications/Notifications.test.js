@@ -4,6 +4,8 @@ import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 import { getLatestNotification } from '../utils/utils';
 
+global.console.log = jest.fn()
+
 const listNotifications = [
   { id: 1, type: 'default', value: 'Test 1' },
   { id: 2, type: 'urgent', value: 'Test 2' },
@@ -24,7 +26,8 @@ const biggerLN = [
 ];
 
 describe('Notifications Renders', () => {
-  // setProps will process on shallow, need to use mount
+  const out = jest.spyOn(console, "log");
+  // setProps won't process on shallow, need to use mount
   const notificationsOn = mount(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
   const notificationsOff = shallow(<Notifications />);
   const noListNotes = shallow(<Notifications displayDrawer={true} />);
@@ -72,6 +75,16 @@ describe('Notifications Renders', () => {
     assert.equal(noListNotes.find('p').text(), 'No new notification for now');
   });
 
+  it('li items run onClick correctly', () => {
+    const render = mount(<ul>{ul.children()}</ul>);
+    render.find('li').first().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 1 has been marked as read');
+    render.find('li').at(1).simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 2 has been marked as read');
+    render.find('li').last().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 3 has been marked as read');
+  });
+
   it('an update when listNotifications.length > previous, else No update', () => {
     expect(notificationsOn.instance().shouldComponentUpdate({listNotifications: sameLN})).toBe(false);
     expect(notificationsOn.setProps({listNotifications: sameLN}).find('ul').children().length).toBe(3);
@@ -92,7 +105,6 @@ describe('Notifications Renders', () => {
     assert.equal(notificationsOn.find('ul').children().first().render()[0].children[0].data, 'Test 1');
     assert.equal(notificationsOn.find('ul').children().at(1).render()[0].attribs['data-priority'], 'urgent');
     assert.equal(notificationsOn.find('ul').children().at(1).render()[0].children[0].data, 'Test 2');
-    console.log
     assert.equal(notificationsOn.find('ul').children().at(2).props().type, 'urgent');
     assert.notStrictEqual(notificationsOn.find('ul').children().at(2).props().html, { __html: getLatestNotification() });
     assert.equal(notificationsOn.find('ul').children().last().render()[0].attribs['data-priority'], 'default');

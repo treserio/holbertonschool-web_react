@@ -105,7 +105,6 @@ describe('Notifications Renders', () => {
     assert.equal(notificationsOn.find('ul').children().first().render()[0].children[0].data, 'Test 1');
     assert.equal(notificationsOn.find('ul').children().at(1).render()[0].attribs['data-priority'], 'urgent');
     assert.equal(notificationsOn.find('ul').children().at(1).render()[0].children[0].data, 'Test 2');
-    console.log
     assert.equal(notificationsOn.find('ul').children().at(2).props().type, 'urgent');
     assert.notStrictEqual(notificationsOn.find('ul').children().at(2).props().html, { __html: getLatestNotification() });
     assert.equal(notificationsOn.find('ul').children().last().render()[0].attribs['data-priority'], 'default');
