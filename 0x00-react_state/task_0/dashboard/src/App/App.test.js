@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { assert } from 'chai';
 import { StyleSheetTestUtils } from 'aphrodite';
 
@@ -20,11 +20,11 @@ describe('App Renders', () => {
   const logout = jest.fn(() => console.log('logout running'));
   const alert = jest.spyOn(global, 'alert');
 
-  const app = shallow(<App logOut={logout} />);
+  const app = mount(<App logOut={logout} />);
   const header = app.find('Header');
   const body = app.find('.App-body');
   const footer = app.find('Footer');
-  const notificationsRender = app.find('Notifications').render().children();
+  const notificationsRender = app.find('Notifications').render();
   const headerRender = app.find('Header').render();
   const loginRender = app.find('Login').render();
   const courseListRender = app.find('CourseList');
@@ -47,8 +47,9 @@ describe('App Renders', () => {
   });
 
   it('children that render correctly', () => {
-    expect(notificationsRender[0].attribs.class).toContain('menuItem');
-    assert.equal(notificationsRender.length, 2);
+    assert.equal(notificationsRender.find('.menuItem').length, 1);
+    assert.equal(notificationsRender.length, 1);
+    assert.equal(notificationsRender.children().length, 1);
     assert.equal(headerRender.children().length, 2);
     assert.equal(loginRender.length, 2);
     assert.equal(footerRender.length, 1);
@@ -60,6 +61,17 @@ describe('App Renders', () => {
     expect(alert).toHaveBeenCalled();
     expect(alert).toHaveBeenCalledWith('Logging you out');
     expect(logout).toHaveBeenCalled();
+  });
+
+  it('app.state.displayDrawer is false, and true after handleDisplayDrawer', () => {
+    assert.equal(app.state().displayDrawer, false);
+    app.instance().handleDisplayDrawer();
+    assert.equal(app.state().displayDrawer, true);
+  });
+
+  it('app.state.displayDrawer is true, and false after handleHideDrawer', () => {
+    app.instance().handleHideDrawer();
+    assert.equal(app.state().displayDrawer, false);
   });
 
   it('NOT the CourseList', () => {

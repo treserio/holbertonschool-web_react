@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import './Notifications.css';
 import { css, StyleSheet } from 'aphrodite';
 import NotificationItem from './NotificationItem';
 import closeIcon from '../assets/close-icon.png';
@@ -76,7 +75,9 @@ export default class Notifications extends React.Component {
 
     return (
       <div className={css(style.wrapper)}>
-        <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        {!this.props.displayDrawer &&
+          <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        }
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
             {this.props.listNotifications.length ?
@@ -93,7 +94,7 @@ export default class Notifications extends React.Component {
               : <p>No new notification for now</p>
             }
             <button
-              className={css(style.close_btn)}
+              className={`closeBtn ${css(style.close_btn)}`}
               aria-label="Close"
               onClick={this.props.handleHideDrawer}
             >

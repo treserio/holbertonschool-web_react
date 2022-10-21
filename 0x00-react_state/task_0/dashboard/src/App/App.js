@@ -34,17 +34,10 @@ export default class App extends React.Component {
   }
 
   handleDisplayDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'none';
     this.setState({ displayDrawer: true });
-    console.log(document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth <= 900) {
-      document.getElementsByClassName('App-body')[0].style.display = 'none';
-    }
   }
 
   handleHideDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'block';
-    document.getElementsByClassName('App-body')[0].style.display = 'block';
     this.setState({ displayDrawer: false });
   }
 
@@ -77,6 +70,9 @@ export default class App extends React.Component {
       body: {
         padding: '2% 3%',
         height: '480px',
+        '@media (max-width: 900px)': {
+          display: this.state.displayDrawer ? 'none' : 'block',
+        }
       },
     });
 
@@ -98,10 +94,6 @@ export default class App extends React.Component {
                 <Login />
               </BodySectionWithMarginBottom>
           }
-          <BodySection title='News from the School'>
-            <p>my balognia has a first name...</p>
-            < WithLogging Wrapped={<Login />} />
-          </BodySection>
         </div>
         <Footer />
       </div>
