@@ -2,6 +2,7 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 
 export default function Login({ login }) {
+  // could have used context here
   const [state, setState] = React.useState({
     email: '',
     password: '',
@@ -36,7 +37,6 @@ export default function Login({ login }) {
     if (event.target.value && state.password) state.enableSubmit = true
     else state.enableSubmit = false;
     setState({ ...state, email: event.target.value });
-    console.log(state)
   }
 
   function handleChangePassword(event) {
@@ -47,11 +47,10 @@ export default function Login({ login }) {
 
   function handleLoginSubmit(event) {
     event.preventDefault();
-    console.log('state', state);
     if (state.enableSubmit) {
       login(state.email, state.password);
     }
-    else alert('Please enter email and password to proceed')
+    else alert('Please enter email and password to proceed');
   }
 
   return (

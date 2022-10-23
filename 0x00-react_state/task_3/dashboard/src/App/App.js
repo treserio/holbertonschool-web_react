@@ -23,11 +23,6 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.logoutListener = this.logoutListener.bind(this);
-    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-    this.login = this.login.bind(this);
     this.state = {
       displayDrawer: false,
       user: AppContext._currentValue.user,
@@ -38,20 +33,19 @@ export default class App extends React.Component {
         { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
       ],
     };
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.logoutListener = this.logoutListener.bind(this);
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    this.login = this.login.bind(this);
+    this.state.logout = this.state.logout.bind(this);
   }
 
   handleDisplayDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'none';
     this.setState({ displayDrawer: true });
-    // console.log(document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth <= 900) {
-      document.getElementsByClassName('App-body')[0].style.display = 'none';
-    }
   }
 
   handleHideDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'block';
-    document.getElementsByClassName('App-body')[0].style.display = 'block';
     this.setState({ displayDrawer: false });
   }
 
@@ -86,29 +80,15 @@ export default class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       // console.log("running logoutListener")
       alert('Logging you out');
-      this.setState({
-        user: {
-          email: '',
-          password: '',
-          isLoggedIn: false,
-        }
-      });
-      this.context.user = {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      };
       this.state.logout();
     }
   };
 
   markNotificationAsRead(id) {
-    console.log('right note func');
     let ln = this.state.listNotifications
     this.setState({
       listNotifications: ln.filter((note) => note.id !== id),
     });
-    setTimeout(() => console.log(this.state.listNotifications), 10);
   };
 
   render () {
@@ -116,6 +96,9 @@ export default class App extends React.Component {
       body: {
         padding: '2% 3%',
         height: '480px',
+        '@media (max-width: 900px)': {
+          display: this.state.displayDrawer ? 'none' : 'block',
+        },
       },
     });
 

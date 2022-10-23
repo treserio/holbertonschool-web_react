@@ -19,7 +19,7 @@ export default function Footer() {
       {
         user.isLoggedIn ?
           <p>
-            <a href='https://github.com/treserio' rel='noreferrer'>Contact us</a>
+            <a href='https://github.com/treserio' rel='noreferrer'>Contact Us</a>
           </p>
         : null
       }

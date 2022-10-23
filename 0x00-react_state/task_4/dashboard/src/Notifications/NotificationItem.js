@@ -43,7 +43,7 @@ NotificationItem.defaultProps = {
   html: { __html: '' },
   type: 'default',
   value: '',
-  markNotificationAsRead: () => console.log('markNotificationAsRead missing'),
+  markNotificationAsRead: (id) => console.log(`Notification ${id} has been marked as read`),
 }
 
 export default React.memo(NotificationItem)

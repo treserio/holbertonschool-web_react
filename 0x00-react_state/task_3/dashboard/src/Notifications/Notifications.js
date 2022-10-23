@@ -5,7 +5,7 @@ import NotificationItem from './NotificationItem';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItemShape from './NotificationItemShape'
 
-export default class Notifications extends React.Component {
+export default class Notifications extends React.PureComponent {
   render () {
     // bouce animation
     const bounce = {
@@ -63,6 +63,7 @@ export default class Notifications extends React.Component {
         padding: 0,
         margin: 0,
         right: 0,
+        zIndex: 1,
         '@media (max-width: 900px)': {
           backgroundColor: 'white',
         },
@@ -77,7 +78,9 @@ export default class Notifications extends React.Component {
 
     return (
       <div className={css(style.wrapper)}>
-        <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        {!this.props.displayDrawer &&
+          <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        }
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
             {this.props.listNotifications.length ?
@@ -106,7 +109,7 @@ export default class Notifications extends React.Component {
               : <p>No new notification for now</p>
             }
             <button
-              className={css(style.close_btn)}
+              className={`closeBtn ${css(style.close_btn)}`}
               aria-label="Close"
               onClick={this.props.handleHideDrawer}
             >
@@ -132,5 +135,5 @@ Notifications.defaultProps = {
   listNotifications: [],
   handleHideDrawer: () => console.log('handleHideDrawer missing'),
   handleDisplayDrawer: () => console.log('handleDisplayDrawer missing'),
-  markNotificationAsRead: () => console.log('markNotificationAsRead missing'),
+  markNotificationAsRead: (id) => console.log(`Notification ${id} has been marked as read`),
 }
