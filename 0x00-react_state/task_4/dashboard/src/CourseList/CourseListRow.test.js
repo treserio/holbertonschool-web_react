@@ -38,5 +38,13 @@ describe('CourseListRow Renders', () => {
     assert.equal(td2.children().length, 2);
     assert.equal(td2.children().first().type(), 'td');
   });
+
+  it('checkbox with label that changes the state on change', () => {
+    assert.equal(td2.state().checked, false);
+    assert.equal(td2.find('input').length, 1);
+    assert.equal(td2.find('label').length, 1);
+    td2.find('input').simulate('change');
+    assert.equal(td2.state().checked, true);
+  });
 })
 

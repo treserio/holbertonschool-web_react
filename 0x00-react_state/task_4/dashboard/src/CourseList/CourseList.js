@@ -24,7 +24,7 @@ export default class CourseList extends React.Component {
           {
             this.props.listCourses.length ?
               this.props.listCourses.map((course) =>
-                <CourseListRow key={course.id} textFirstCell={course.name} textSecondCell={course.credit} />
+                <CourseListRow key={course.id} id={course.id} textFirstCell={course.name} textSecondCell={course.credit} />
               )
             : <CourseListRow isHeader={true} textFirstCell='No course available yet' />
           }

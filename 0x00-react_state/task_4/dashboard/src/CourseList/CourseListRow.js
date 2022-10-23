@@ -43,8 +43,8 @@ export default class CourseListRow extends React.Component {
       return (
         <tr className={`${css(style.tr)} ${this.state.checked ? css(style.rowChecked) : null}`} >
           <td>
-            <label>
-              <input type='checkbox' onChange={() => this.toggleChecked()} />
+            <label htmlFor={`course${this.props.id}`} >
+              <input id={`course${this.props.id}`} type='checkbox' onChange={() => this.toggleChecked()} />
               {this.props.textFirstCell}
             </label>
           </td>
