@@ -8,7 +8,20 @@ const user = {
 };
 
 // Default logout function
-function logout() {console.log('logout ran')};
+function logout() {
+  this.setState({
+    user: {
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    }
+  });
+  this.context.user = {
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  };
+};
 
 // Create context object with default values
 // passing app.state as prop to this rendering of .Provider, don't understand defaults

@@ -61,6 +61,7 @@ export default class Notifications extends React.Component {
         padding: 0,
         margin: 0,
         right: 0,
+        zIndex: 1,
         '@media (max-width: 900px)': {
           backgroundColor: 'white',
         },
@@ -75,7 +76,9 @@ export default class Notifications extends React.Component {
 
     return (
       <div className={css(style.wrapper)}>
-        <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        {!this.props.displayDrawer &&
+          <div onClick={this.props.handleDisplayDrawer} className={`menuItem ${css(style.menuItem)}`}>Your notifications</div>
+        }
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
             {this.props.listNotifications.length ?
@@ -92,7 +95,7 @@ export default class Notifications extends React.Component {
               : <p>No new notification for now</p>
             }
             <button
-              className={css(style.close_btn)}
+              className={`closeBtn ${css(style.close_btn)}`}
               aria-label="Close"
               onClick={this.props.handleHideDrawer}
             >

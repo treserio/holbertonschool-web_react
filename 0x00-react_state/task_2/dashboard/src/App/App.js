@@ -29,39 +29,29 @@ export default class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
-    this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.logoutListener = this.logoutListener.bind(this);
-    this.login = this.login.bind(this);
     this.state = {
       displayDrawer: false,
       user: AppContext._currentValue.user,
       logout: AppContext._currentValue.logout,
     };
+    this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
+    this.handleHideDrawer = this.handleHideDrawer.bind(this);
+    this.logoutListener = this.logoutListener.bind(this);
+    this.login = this.login.bind(this);
+    this.state.logout = this.state.logout.bind(this);
   }
 
   handleDisplayDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'none';
     this.setState({ displayDrawer: true });
-    // console.log(document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth <= 900) {
-      document.getElementsByClassName('App-body')[0].style.display = 'none';
-    }
   }
 
   handleHideDrawer() {
-    document.getElementsByClassName('menuItem')[0].style.display = 'block';
-    document.getElementsByClassName('App-body')[0].style.display = 'block';
-    // this.setState({ displayDrawer: false });
     this.setState({ displayDrawer: false });
-    console.log('inHandle', this.context);
   }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeydown);
     document.addEventListener('keydown', this.logoutListener);
-    console.log('mount-context', this.context);
-    console.log('mount-state', this.state);
   }
 
   componentWillUnmount() {
@@ -90,18 +80,18 @@ export default class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       // console.log("running logoutListener")
       alert('Logging you out');
-      this.setState({
-        user: {
-          email: '',
-          password: '',
-          isLoggedIn: false,
-        }
-      });
-      this.context.user = {
-        email: '',
-        password: '',
-        isLoggedIn: false,
-      };
+      // this.setState({
+      //   user: {
+      //     email: '',
+      //     password: '',
+      //     isLoggedIn: false,
+      //   }
+      // });
+      // this.context.user = {
+      //   email: '',
+      //   password: '',
+      //   isLoggedIn: false,
+      // };
       this.state.logout();
     }
   };
@@ -111,6 +101,9 @@ export default class App extends React.Component {
       body: {
         padding: '2% 3%',
         height: '480px',
+        '@media (max-width: 900px)': {
+          display: this.state.displayDrawer ? 'none' : 'block',
+        }
       },
     });
 
@@ -123,7 +116,7 @@ export default class App extends React.Component {
             handleHideDrawer={this.handleHideDrawer}
             handleDisplayDrawer={this.handleDisplayDrawer}
           />
-          <Header />
+          <Header context={AppContext}/>
           <div className={`App-body ${css(style.body)}`}>
             {this.state.user.isLoggedIn ?
               <BodySectionWithMarginBottom title='Course list'>
