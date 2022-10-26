@@ -32,6 +32,7 @@
 		"aphrodite": "^2.4.0",
 		"enzyme": "^3.11.0",
 		"enzyme-adapter-react-16": "^1.15.6",
+		"jest-fetch-mock": "^3.0.3",
 		"normalizr": "^3.6.2",
 		"prop-types": "^15.8.1",
 		"react": "^16.13.0",

@@ -3,7 +3,13 @@ import {
   logout,
   displayNotificationDrawer,
   hideNotificationDrawer,
+  loginSuccess,
+  loginFailure,
+  loginRequest,
  } from './uiActionCreators';
+import fetchMock from 'jest-fetch-mock'
+
+fetchMock.enableMocks();
 
 describe('uiActionCreators testing', () => {
   it('confirm login returns correct object', () => {
@@ -32,5 +38,30 @@ describe('uiActionCreators testing', () => {
     expect(hideNotificationDrawer('apple', 'bottom')).toEqual({
       type: 'HIDE_NOTIFICATION_DRAWER',
     });
+  });
+
+  it('confirm loginSuccess returns correct object', () => {
+    expect(loginSuccess('apple', 'bottom')).toEqual({
+      type: 'LOGIN_SUCCESS',
+    });
+  });
+
+  it('confirm loginFailure returns correct object', () => {
+    expect(loginFailure('apple', 'bottom')).toEqual({
+      type: 'LOGIN_FAILURE',
+    });
+  });
+
+  it('confirm loginRequest returns correct object', async () => {
+    fetch.mockResponseOnce('stuff and things');
+    const res = await loginRequest('some', 'test')
+    expect(res).toEqual({ type: 'LOGIN_SUCCESS' });
+    expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('confirm loginRequest returns correct object when fetch fails', async () => {
+    const res = await loginRequest('some', 'test')
+    expect(res).toEqual({ type: 'LOGIN_FAILURE' });
+    expect(fetch).toHaveBeenCalledTimes(2);
   });
 });

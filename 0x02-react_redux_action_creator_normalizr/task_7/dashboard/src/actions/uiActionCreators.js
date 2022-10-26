@@ -24,3 +24,21 @@ export function hideNotificationDrawer() {
     type: uiTypes.HIDE_NOTIFICATION_DRAWER
   }
 }
+
+export function loginSuccess() {
+  return {
+    type: uiTypes.LOGIN_SUCCESS
+  }
+}
+
+export function loginFailure() {
+  return {
+    type: uiTypes.LOGIN_FAILURE
+  }
+}
+
+export async function loginRequest(email, password) {
+  login(email, password);
+  let res = await fetch('../../dist/login-success.json');
+  return res.body.toString() ? loginSuccess() : loginFailure();
+}
