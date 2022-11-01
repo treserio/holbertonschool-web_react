@@ -13,3 +13,10 @@ export function unSelectCourse(index) {
     index,
   };
 }
+
+export function fetchCourses(data) {
+  return {
+    type: courseTypes.FETCH_COURSE_SUCCESS,
+    data,
+  }
+}

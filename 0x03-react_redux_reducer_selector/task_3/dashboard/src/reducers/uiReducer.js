@@ -10,25 +10,25 @@ const defaultState = Map({
 export default function uiReducer(action, state = defaultState) {
   switch (action.type) {
     case uiActions.DISPLAY_NOTIFICATION_DRAWER:
-      return {...state,
+      return Map({...state,
         isNotificationDrawerVisible: true,
-      };
+      });
     case uiActions.HIDE_NOTIFICATION_DRAWER:
-      return {...state,
+      return Map({...state,
         isNotificationDrawerVisible: false,
-      };
+      });
     case uiActions.LOGIN_SUCCESS:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: true,
-      };
+      });
     case uiActions.LOGIN_FAILURE:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: false,
-      };
+      });
     case uiActions.LOGOUT:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: false,
-      };
+      });
     }
   return state;
 };

@@ -1,28 +1,27 @@
 import courseReducer from './courseReducer';
+import * as courseActions from '../actions/courseActionCreators';
+const { List } = require('immutable');
 
 describe('courseReducer testing', () => {
-  const fcsAction = {
-    type: 'FETCH_COURSE_SUCCESS',
-    data: [
-      {
-        id: 1,
-        name: 'ES6',
-        credit: 60
-      },
-      {
-        id: 2,
-        name: 'Webpack',
-        credit: 20
-      },
-      {
-        id: 3,
-        name: 'React',
-        credit: 40
-      }
-    ]
-  };
+  const fcsAction = courseActions.fetchCourses([
+    {
+      id: 1,
+      name: 'ES6',
+      credit: 60
+    },
+    {
+      id: 2,
+      name: 'Webpack',
+      credit: 20
+    },
+    {
+      id: 3,
+      name: 'React',
+      credit: 40
+    }
+  ]);
 
-  const fcsReturn = [
+  const fcsReturn = List([
     {
       id: 1,
       name: 'ES6',
@@ -41,12 +40,12 @@ describe('courseReducer testing', () => {
       credit: 40,
       isSelected: false,
     }
-  ];
+  ]);
 
   let scReturn = [];
 
   it('returns the initial state when no action is given', () => {
-    expect(courseReducer({})).toEqual([]);
+    expect(courseReducer({})).toEqual(List([]));
   });
 
   it('the FETCH_COURSE_SUCCESS action returns the correct data', () => {
@@ -54,8 +53,8 @@ describe('courseReducer testing', () => {
   });
 
   it('the SELECT_COURSE action returns the correct data', () => {
-    scReturn = courseReducer({type: 'SELECT_COURSE', index: 2}, fcsReturn);
-    expect(scReturn).toEqual(
+    scReturn = courseReducer(courseActions.selectCourse(2), fcsReturn);
+    expect(scReturn._tail.array).toEqual(
       expect.arrayContaining([{
         id: 2,
         name: 'Webpack',
@@ -66,7 +65,7 @@ describe('courseReducer testing', () => {
   });
 
   it('the UNSELECT_COURSE action returns the correct data', () => {
-    expect(courseReducer({type: 'UNSELECT_COURSE', index: 2}, scReturn)).toEqual(
+    expect(courseReducer(courseActions.unSelectCourse(2), scReturn)._tail.array).toEqual(
       expect.arrayContaining([{
         id: 2,
         name: 'Webpack',
