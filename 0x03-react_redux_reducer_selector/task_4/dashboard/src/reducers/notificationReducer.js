@@ -1,4 +1,5 @@
 import noteActions from '../actions/notificationActionTypes';
+import { notificationNormalizer } from '../schema/notificationsSchema';
 const { Map } = require('immutable');
 
 const defaultState = Map({
@@ -11,24 +12,18 @@ export default function notificationReducer(action, state = defaultState) {
     case noteActions.FETCH_NOTIFICATIONS_SUCCESS:
       return Map({
         filter: 'DEFAULT',
-        notifications: action.data.map((note) => ({
-          ...note,
-          isRead: false,
-        })),
+        notifications: state.toJS().notifications.concat(
+          Object.values(notificationNormalizer(action.data).entities.notifications)
+            .map((note) => ({
+              ...note,
+              isRead: false,
+            }))
+        ),
       });
     case noteActions.MARK_AS_READ:
-      return Map({
-        filter: 'DEFAULT',
-        notifications: state.toJS().notifications.map((note) => note.id === action.index ? {
-          ...note,
-          isRead: true,
-        } : note ),
-      });
+      return state.setIn(['notifications', action.index - 1, 'isRead'], true);
     case noteActions.SET_TYPE_FILTER:
-      return Map({
-        ...state.toJS(),
-        filter: action.filter,
-      });
+      return state.set('filter', action.filter);
   }
   return state;
 };

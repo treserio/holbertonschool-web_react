@@ -54,7 +54,7 @@ describe('courseReducer testing', () => {
 
   it('the SELECT_COURSE action returns the correct data', () => {
     scReturn = courseReducer(courseActions.selectCourse(2), fcsReturn);
-    expect(scReturn._tail.array).toEqual(
+    expect(scReturn.toJS()).toEqual(
       expect.arrayContaining([{
         id: 2,
         name: 'Webpack',
@@ -65,7 +65,7 @@ describe('courseReducer testing', () => {
   });
 
   it('the UNSELECT_COURSE action returns the correct data', () => {
-    expect(courseReducer(courseActions.unSelectCourse(2), scReturn)._tail.array).toEqual(
+    expect(courseReducer(courseActions.unSelectCourse(2), scReturn).toJS()).toEqual(
       expect.arrayContaining([{
         id: 2,
         name: 'Webpack',
