@@ -1,0 +1,14 @@
+export default {
+  MARK_AS_READ: 'MARK_AS_READ',
+  SET_TYPE_FILTER: 'SET_TYPE_FILTER',
+  FETCH_NOTIFICATIONS_SUCCESS: 'FETCH_NOTIFICATIONS_SUCCESS',
+  FILTERS: {
+    DEFAULT: 'DEFAULT',
+    URGENT: 'URGENT',
+  }
+}
+
+export const NotificationTypeFilters = {
+  DEFAULT: 'DEFAULT',
+  URGENT: 'URGENT',
+}
