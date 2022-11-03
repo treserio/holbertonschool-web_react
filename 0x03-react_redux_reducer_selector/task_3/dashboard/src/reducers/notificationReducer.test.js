@@ -1,9 +1,9 @@
 import notesReducer from './notificationReducer';
-import { markAsRead, setNotificationFilter, fetchNotifications } from '../actions/notificationActionCreators';
+import * as noteActions from '../actions/notificationActionCreators';
 const { Map } = require('immutable');
 
-describe('courseReducer testing', () => {
-  const fnsAction = fetchNotifications([
+describe('notificationReducer testing', () => {
+  const fnsAction = noteActions.fetchNotifications([
     {
       id: 1,
       type: "default",
@@ -51,26 +51,33 @@ describe('courseReducer testing', () => {
   });
 
   it('returns the initial state when no action is given', () => {
-    expect(notesReducer({})).toEqual(defaultState);
+    expect(notesReducer(undefined, {}))
+      .toEqual(defaultState);
   });
 
   it('the FETCH_NOTIFICATIONS_SUCCESS action returns the correct data', () => {
-    expect(notesReducer(fnsAction)).toEqual(fnsReturn);
+    expect(notesReducer(undefined, fnsAction))
+      .toEqual(fnsReturn);
   });
 
   it('the MARK_AS_READ action returns the correct data', () => {
-    const marReturn = notesReducer(markAsRead(2), fnsReturn);
-    expect(marReturn.toJS().notifications).toEqual(
-      expect.arrayContaining([{
-        id: 2,
-        type: "urgent",
-        value: "New resume available",
-        isRead: true,
-      }])
-    );
+    const marReturn = notesReducer(fnsReturn, noteActions.markAsRead(2));
+    expect(marReturn.get('notifications'))
+      .toEqual(
+        expect.arrayContaining([{
+          id: 2,
+          type: "urgent",
+          value: "New resume available",
+          isRead: true,
+        }])
+      );
   });
 
   it('the SET_TYPE_FILTER action returns the correct data', () => {
-    expect(notesReducer(setNotificationFilter('urgent'), fnsReturn).toJS().filter).toEqual('URGENT');
+    expect(
+      notesReducer(fnsReturn, noteActions.setNotificationFilter('urgent'))
+        .get('filter')
+    )
+      .toEqual('URGENT');
   });
 });

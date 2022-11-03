@@ -7,12 +7,12 @@ const defaultState = Map({
   notifications: [],
 });
 
-export default function notificationReducer(action, state = defaultState) {
+export default function notificationReducer(state = defaultState, action) {
   switch (action.type) {
     case noteActions.FETCH_NOTIFICATIONS_SUCCESS:
       return Map({
         filter: 'DEFAULT',
-        notifications: state.toJS().notifications.concat(
+        notifications: state.get('notifications').concat(
           Object.values(notificationNormalizer(action.data).entities.notifications)
             .map((note) => ({
               ...note,

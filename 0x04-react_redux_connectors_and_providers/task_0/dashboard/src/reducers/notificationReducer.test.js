@@ -51,17 +51,17 @@ describe('notificationReducer testing', () => {
   });
 
   it('returns the initial state when no action is given', () => {
-    expect(notesReducer({}))
+    expect(notesReducer(undefined, {}))
       .toEqual(defaultState);
   });
 
   it('the FETCH_NOTIFICATIONS_SUCCESS action returns the correct data', () => {
-    expect(notesReducer(fnsAction))
+    expect(notesReducer(undefined, fnsAction))
       .toEqual(fnsReturn);
   });
 
   it('the MARK_AS_READ action returns the correct data', () => {
-    const marReturn = notesReducer(noteActions.markAsRead(2), fnsReturn);
+    const marReturn = notesReducer(fnsReturn, noteActions.markAsRead(2));
     expect(marReturn.get('notifications'))
       .toEqual(
         expect.arrayContaining([{
@@ -75,7 +75,7 @@ describe('notificationReducer testing', () => {
 
   it('the SET_TYPE_FILTER action returns the correct data', () => {
     expect(
-      notesReducer(noteActions.setNotificationFilter('urgent'), fnsReturn)
+      notesReducer(fnsReturn, noteActions.setNotificationFilter('urgent'))
         .get('filter')
     )
       .toEqual('URGENT');

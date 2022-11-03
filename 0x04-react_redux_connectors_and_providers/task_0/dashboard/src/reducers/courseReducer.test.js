@@ -45,17 +45,17 @@ describe('courseReducer testing', () => {
   let scReturn = [];
 
   it('returns the initial state when no action is given', () => {
-    expect(courseReducer({}))
+    expect(courseReducer(undefined, {}))
       .toEqual(List([]));
   });
 
   it('the FETCH_COURSE_SUCCESS action returns the correct data', () => {
-    expect(courseReducer(fcsAction))
+    expect(courseReducer(undefined, fcsAction))
       .toEqual(fcsReturn);
   });
 
   it('the SELECT_COURSE action returns the correct data', () => {
-    scReturn = courseReducer(courseActions.selectCourse(2), fcsReturn);
+    scReturn = courseReducer(fcsReturn, courseActions.selectCourse(2));
     expect(scReturn.toJS())
       .toEqual(
         expect.arrayContaining([{
@@ -69,7 +69,7 @@ describe('courseReducer testing', () => {
 
   it('the UNSELECT_COURSE action returns the correct data', () => {
     expect(
-      courseReducer(courseActions.unSelectCourse(2), scReturn)
+      courseReducer(scReturn, courseActions.unSelectCourse(2))
         .toJS()
     )
       .toEqual(

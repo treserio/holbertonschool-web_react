@@ -1,33 +1,34 @@
 import uiActions from '../actions/uiActionTypes';
+const { Map } = require('immutable');
 
-const basicState = {
+const defaultState = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
   user: {},
-}
+});
 
-export default function uiReducer(state = basicState, action) {
+export default function uiReducer(state = defaultState, action) {
   switch (action.type) {
     case uiActions.DISPLAY_NOTIFICATION_DRAWER:
-      return {...state,
+      return Map({...state,
         isNotificationDrawerVisible: true,
-      };
+      });
     case uiActions.HIDE_NOTIFICATION_DRAWER:
-      return {...state,
+      return Map({...state,
         isNotificationDrawerVisible: false,
-      };
+      });
     case uiActions.LOGIN_SUCCESS:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: true,
-      };
+      });
     case uiActions.LOGIN_FAILURE:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: false,
-      };
+      });
     case uiActions.LOGOUT:
-      return {...state,
+      return Map({...state,
         isUserLoggedIn: false,
-      };
+      });
     }
   return state;
 };

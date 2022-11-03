@@ -16,19 +16,19 @@ const initStateTrue = Map({
 
 describe('uiReducer testing', () => {
   it('returns the initial state when no action is passed', () => {
-    expect(uiReducer({}))
+    expect(uiReducer(undefined, {}))
       .toEqual(initStateFalse);
   });
 
   it('returns the initial state when the SELECT_COURSE action is passed', () => {
-    expect(uiReducer({ type: 'SELECT_COURSE' }))
+    expect(uiReducer(undefined, { type: 'SELECT_COURSE' }))
       .toEqual(initStateFalse);
-    expect(uiReducer({ type: 'SELECT_COURSE' }, initStateTrue))
+    expect(uiReducer(initStateTrue, { type: 'SELECT_COURSE' }))
       .toEqual(initStateTrue);
   })
 
   it('returns new state when the DISPLAY_NOTIFICATION_DRAWER action is passed', () => {
-    expect(uiReducer(uiActions.displayNotificationDrawer()))
+    expect(uiReducer(undefined, uiActions.displayNotificationDrawer()))
       .toEqual(Map({
         ...initStateFalse,
         isNotificationDrawerVisible: true,
@@ -36,7 +36,7 @@ describe('uiReducer testing', () => {
   })
 
   it('returns new state when the LOGIN_SUCCESS action is passed', () => {
-    expect(uiReducer(uiActions.loginSuccess()))
+    expect(uiReducer(undefined, uiActions.loginSuccess()))
       .toEqual(Map({
         ...initStateFalse,
         isUserLoggedIn: true,
@@ -44,7 +44,7 @@ describe('uiReducer testing', () => {
   });
 
   it('returns new state when the HIDE_NOTIFICATION_DRAWER action is passed', () => {
-    expect(uiReducer(uiActions.hideNotificationDrawer(), initStateTrue))
+    expect(uiReducer(initStateTrue, uiActions.hideNotificationDrawer()))
       .toEqual(Map({
         ...initStateTrue,
         isNotificationDrawerVisible: false,
@@ -52,7 +52,7 @@ describe('uiReducer testing', () => {
   })
 
   it('returns new state when the LOGIN_FAILURE action is passed', () => {
-    expect(uiReducer(uiActions.loginFailure(), initStateTrue))
+    expect(uiReducer(initStateTrue, uiActions.loginFailure()))
       .toEqual(Map({
         ...initStateTrue,
         isUserLoggedIn: false,
@@ -60,7 +60,7 @@ describe('uiReducer testing', () => {
   });
 
   it('returns new state when the LOGOUT action is passed', () => {
-    expect(uiReducer(uiActions.logout(), initStateTrue))
+    expect(uiReducer(initStateTrue, uiActions.logout()))
       .toEqual(Map({
         ...initStateTrue,
         isUserLoggedIn: false,

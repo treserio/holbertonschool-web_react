@@ -11,6 +11,7 @@ import Notifications from '../Notifications/Notifications';
 import WithLogging from '../HOC/WithLogging';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
+import { connect } from 'react-redux';
 
 const listCourses = [
   { id: '1', name: 'ES6', credit: 60 },
@@ -18,7 +19,7 @@ const listCourses = [
   { id: '3', name: 'React', credit: 40 },
 ];
 
-export default class App extends React.Component {
+class App extends React.Component {
   static contextType = AppContext;
 
   constructor(props) {
@@ -140,3 +141,13 @@ App.propTypes = {
 App.defaultProps = {
   isLoggedIn: false,
 };
+
+function mapStateToProps(state) {
+  // Connect isLoggedIn with redux state
+  return {
+    isLoggedIn: state.isUserLoggedIn,
+    test: 'what'
+  };
+}
+// Connect redux state to App component
+export default connect(mapStateToProps)(App);

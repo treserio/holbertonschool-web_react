@@ -45,33 +45,40 @@ describe('courseReducer testing', () => {
   let scReturn = [];
 
   it('returns the initial state when no action is given', () => {
-    expect(courseReducer({})).toEqual(List([]));
+    expect(courseReducer(undefined, {}))
+      .toEqual(List([]));
   });
 
   it('the FETCH_COURSE_SUCCESS action returns the correct data', () => {
-    expect(courseReducer(fcsAction)).toEqual(fcsReturn);
+    expect(courseReducer(undefined, fcsAction))
+      .toEqual(fcsReturn);
   });
 
   it('the SELECT_COURSE action returns the correct data', () => {
-    scReturn = courseReducer(courseActions.selectCourse(2), fcsReturn);
-    expect(scReturn._tail.array).toEqual(
-      expect.arrayContaining([{
-        id: 2,
-        name: 'Webpack',
-        credit: 20,
-        isSelected: true,
-      }])
-    );
+    scReturn = courseReducer(fcsReturn, courseActions.selectCourse(2));
+    expect(scReturn.toJS())
+      .toEqual(
+        expect.arrayContaining([{
+          id: 2,
+          name: 'Webpack',
+          credit: 20,
+          isSelected: true,
+        }])
+      );
   });
 
   it('the UNSELECT_COURSE action returns the correct data', () => {
-    expect(courseReducer(courseActions.unSelectCourse(2), scReturn)._tail.array).toEqual(
-      expect.arrayContaining([{
-        id: 2,
-        name: 'Webpack',
-        credit: 20,
-        isSelected: false,
-      }])
-    );
+    expect(
+      courseReducer(scReturn, courseActions.unSelectCourse(2))
+        .toJS()
+    )
+      .toEqual(
+        expect.arrayContaining([{
+          id: 2,
+          name: 'Webpack',
+          credit: 20,
+          isSelected: false,
+        }])
+      );
   });
 });

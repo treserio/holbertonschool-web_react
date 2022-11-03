@@ -7,7 +7,7 @@ const defaultState = Map({
   notifications: [],
 });
 
-export default function notificationReducer(action, state = defaultState) {
+export default function notificationReducer(state = defaultState, action) {
   switch (action.type) {
     case noteActions.FETCH_NOTIFICATIONS_SUCCESS:
       return Map({

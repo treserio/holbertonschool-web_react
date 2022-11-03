@@ -4,7 +4,7 @@ const { List } = require('immutable');
 
 const defaultState = List([]);
 
-export default function uiReducer(action, state = defaultState) {
+export default function uiReducer(state = defaultState, action) {
   switch (action.type) {
     case courseActions.FETCH_COURSE_SUCCESS:
       return List(
