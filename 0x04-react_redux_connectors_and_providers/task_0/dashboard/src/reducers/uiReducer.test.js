@@ -5,13 +5,21 @@ const { Map } = require('immutable');
 const initStateFalse = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
-  user: {},
+  user: {
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  },
 });
 
 const initStateTrue = Map({
   isNotificationDrawerVisible: true,
   isUserLoggedIn: true,
-  user: {},
+  user: {
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  }
 });
 
 describe('uiReducer testing', () => {
@@ -36,11 +44,10 @@ describe('uiReducer testing', () => {
   })
 
   it('returns new state when the LOGIN_SUCCESS action is passed', () => {
-    expect(uiReducer(undefined, uiActions.loginSuccess()))
-      .toEqual(Map({
-        ...initStateFalse,
-        isUserLoggedIn: true,
-      }));
+    expect(uiReducer({ui: initStateFalse}, uiActions.loginSuccess()))
+      .toEqual({
+        ui: initStateFalse.setIn(['user', 'isLoggedIn'], true).set('isUserLoggedIn', true)
+      });
   });
 
   it('returns new state when the HIDE_NOTIFICATION_DRAWER action is passed', () => {

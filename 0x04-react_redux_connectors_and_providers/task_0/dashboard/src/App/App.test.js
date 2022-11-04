@@ -1,8 +1,9 @@
 import React from 'react';
-import App from './App';
+import App, { mapStateToProps } from './App';
 import { mount } from 'enzyme';
 import { assert } from 'chai';
 import { StyleSheetTestUtils } from 'aphrodite';
+import { Map } from 'immutable';
 
 global.console.log = jest.fn()
 
@@ -104,6 +105,7 @@ describe('App Renders', () => {
 });
 
 describe('Logged in App Renders', () => {
+
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
@@ -129,5 +131,41 @@ describe('Logged in App Renders', () => {
 
   it('NOT the Login', () => {
     assert.equal(login.length, 0);
+  });
+});
+
+describe('mapStateToProps returns', () => {
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  const defaultState = Map({
+    isNotificationDrawerVisible: false,
+    isUserLoggedIn: false,
+    user: {
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    },
+  });
+
+  const rtnProps = {
+    isLoggedIn: false,
+    isNotificationDrawerVisible: false,
+    user: {
+      email: '',
+      password: '',
+      isLoggedIn: false,
+    },
+  }
+
+  it('expected object from state', () => {
+    expect(mapStateToProps({ui: defaultState}))
+      .toEqual(rtnProps)
   });
 });

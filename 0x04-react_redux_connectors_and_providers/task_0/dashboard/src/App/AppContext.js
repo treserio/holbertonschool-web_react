@@ -1,9 +1,19 @@
 import React, { createContext } from 'react';
+import { configureStore } from '@reduxjs/toolkit';
+import uiReducer from '../reducers/uiReducer';
+
+const store = configureStore({
+  reducer: uiReducer,
+  preloadedState: {
+    ui: uiReducer(undefined, {}),
+  },
+  middleware: (getDefault) => getDefault({ serializableCheck: false })
+});
 
 // Default user object
 const user = {
-  email: '',
-  password: '',
+  email: 'App',
+  password: 'Context',
   isLoggedIn: false,
 };
 
@@ -24,10 +34,10 @@ function logout() {
 };
 
 // Create context object with default values
-// passing app.state as prop to this rendering of .Provider, don't understand defaults
 const AppContext = createContext({
   user,
   logout,
+  store,
 });
 
 export default AppContext;

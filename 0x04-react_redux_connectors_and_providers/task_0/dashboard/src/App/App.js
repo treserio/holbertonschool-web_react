@@ -12,6 +12,7 @@ import WithLogging from '../HOC/WithLogging';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
 import { connect } from 'react-redux';
+import * as uiActions from '../actions/uiActionCreators';
 
 const listCourses = [
   { id: '1', name: 'ES6', credit: 60 },
@@ -19,7 +20,7 @@ const listCourses = [
   { id: '3', name: 'React', credit: 40 },
 ];
 
-class App extends React.Component {
+export default class App extends React.Component {
   static contextType = AppContext;
 
   constructor(props) {
@@ -40,6 +41,8 @@ class App extends React.Component {
     this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
     this.login = this.login.bind(this);
     this.state.logout = this.state.logout.bind(this);
+    // using the props that were sent in from the Redux Store
+    this.state.user.isLoggedIn = this.props.isLoggedIn;
   }
 
   handleDisplayDrawer() {
@@ -75,6 +78,9 @@ class App extends React.Component {
       password,
       isLoggedIn: true,
     };
+    // console.log(this.context.store.getState())
+    this.context.store.dispatch(uiActions.loginSuccess())
+    // console.log(this.context.store.getState())
   }
 
   logoutListener(event) {
@@ -142,12 +148,13 @@ App.defaultProps = {
   isLoggedIn: false,
 };
 
-function mapStateToProps(state) {
-  // Connect isLoggedIn with redux state
+// function for redux connect parametes
+export function mapStateToProps(state) {
   return {
-    isLoggedIn: state.isUserLoggedIn,
-    test: 'what'
+    isLoggedIn: state.ui.get('isUserLoggedIn'),
+    isNotificationDrawerVisible: state.ui.get('isNotificationDrawerVisible'),
+    user: state.ui.get('user'),
   };
 }
-// Connect redux state to App component
-export default connect(mapStateToProps)(App);
+
+export const ReduxApp = connect(mapStateToProps, null, null, { context: AppContext })(App);

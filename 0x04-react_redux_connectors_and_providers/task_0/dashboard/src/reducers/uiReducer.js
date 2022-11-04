@@ -4,7 +4,11 @@ const { Map } = require('immutable');
 const defaultState = Map({
   isNotificationDrawerVisible: false,
   isUserLoggedIn: false,
-  user: {},
+  user: {
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  },
 });
 
 export default function uiReducer(state = defaultState, action) {
@@ -18,9 +22,13 @@ export default function uiReducer(state = defaultState, action) {
         isNotificationDrawerVisible: false,
       });
     case uiActions.LOGIN_SUCCESS:
-      return Map({...state,
-        isUserLoggedIn: true,
-      });
+      return {
+        ...state,
+        ui: state.ui.setIn(['user', 'isLoggedIn'], true).set('isUserLoggedIn', true),
+      }
+      // return {...state,
+      //   isUserLoggedIn: true,
+      // };
     case uiActions.LOGIN_FAILURE:
       return Map({...state,
         isUserLoggedIn: false,

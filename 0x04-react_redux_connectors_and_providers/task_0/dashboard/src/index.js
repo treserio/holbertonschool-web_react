@@ -1,26 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App/App';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import uiReducer from './reducers/uiReducer';
-
-const store = configureStore({
-  reducer: uiReducer,
-  preloadedState: {
-    ui: uiReducer({}),
-  },
-});
-
-console.log(store)
-console.log(store.getState())
+import { ReduxApp } from './App/App';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ReduxApp />
   </React.StrictMode>,
   document.getElementById('root')
 );
