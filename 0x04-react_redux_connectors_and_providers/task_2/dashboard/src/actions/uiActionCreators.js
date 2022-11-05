@@ -46,8 +46,8 @@ export const loginRequest = createAsyncThunk(
     // console.log(login(args.email, args.password));
     // fetch path seems relative to the dist folder, relative to bundle.js
     let res = await fetch('./login-success.json');
+    // console.log(res.status)
     if (res.status === 200) {
-      // console.log('status', res.status);
       store.dispatch(login(args.email, args.password));
       return () => store.dispatch(loginSuccess());
     } else {

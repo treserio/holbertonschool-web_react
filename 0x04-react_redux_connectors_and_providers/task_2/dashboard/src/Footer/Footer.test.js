@@ -1,14 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Footer from './Footer';
+import {ReduxFooter} from './Footer';
 import { shallow, mount } from 'enzyme';
 import chai from 'chai';
 import { StyleSheetTestUtils } from 'aphrodite';
 import AppContext from '../App/AppContext';
+import { Provider } from 'react-redux';
+import mockStore from 'redux-mock-store';
+import { Map } from 'immutable';
+import thunk from 'redux-thunk';
 
 chai.use(require('chai-string'));
 
 describe('Footer Renders', () => {
+  const initStore = mockStore([thunk]);
+  let notLogged = initStore({
+    ui: Map({user : { isLoggedIn: false }}),
+  });
+  let isLogged = initStore({
+    ui: Map({user : { isLoggedIn: true }}),
+  });
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
@@ -18,7 +29,11 @@ describe('Footer Renders', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  const footer = shallow(<Footer />);
+  const footer = mount(
+    <Provider store={notLogged}>
+      <ReduxFooter />
+    </Provider>
+  );
 
   it('without crashing', () => {
     chai.assert.equal(footer.length, 1);
@@ -34,13 +49,9 @@ describe('Footer Renders', () => {
 
   it('with a "Contact Us" link with correct href when user is logged in', () => {
     const loginFooter = mount(
-      <AppContext.Provider value={{
-        user: {
-          isLoggedIn: true,
-        }
-      }}>
-        <Footer />
-      </AppContext.Provider>
+      <Provider store={isLogged}>
+        <ReduxFooter />
+      </Provider>
     );
     chai.assert.equal(loginFooter.find('a').length, 1);
     chai.assert.equal(loginFooter.find('a').text(), 'Contact Us');

@@ -2,6 +2,7 @@ import React from 'react';
 import { getFullYear, getFooterCopy } from '../utils/utils';
 import { css, StyleSheet } from 'aphrodite';
 import { connect, useStore } from 'react-redux';
+import AppContext from '../App/AppContext';
 // import AppContext from '../App/AppContext';
 
 export default function Footer({ user }) {

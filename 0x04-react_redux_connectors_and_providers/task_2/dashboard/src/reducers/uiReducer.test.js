@@ -57,18 +57,22 @@ describe('uiReducer testing', () => {
   })
 
   it('returns new state when the LOGIN_FAILURE action is passed', () => {
-    expect(uiReducer(initStateTrue, uiActions.loginFailure()))
-      .toEqual(Map({
-        ...initStateTrue,
-        isUserLoggedIn: false,
-      }));
+    expect(uiReducer({ui: initStateTrue}, uiActions.loginFailure()))
+      .toEqual({
+        ui: initStateTrue.set('isUserLoggedIn', false)
+          .setIn(['user', 'email'], '')
+          .setIn(['user', 'password'], '')
+          .setIn(['user', 'isLoggedIn'], false),
+      });
   });
 
   it('returns new state when the LOGOUT action is passed', () => {
-    expect(uiReducer(initStateTrue, uiActions.logout()))
-      .toEqual(Map({
-        ...initStateTrue,
-        isUserLoggedIn: false,
-      }));
+    expect(uiReducer({ui: initStateTrue}, uiActions.logout()))
+      .toEqual({
+        ui: initStateTrue.set('isUserLoggedIn', false)
+          .setIn(['user', 'email'], '')
+          .setIn(['user', 'password'], '')
+          .setIn(['user', 'isLoggedIn'], false),
+      });
   });
 });

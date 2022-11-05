@@ -16,9 +16,9 @@ describe('Login Renders ', () => {
   });
 
   const alert = jest.spyOn(window, 'alert').mockImplementation((text) => console.log(text));
-  const loginFunc = jest.fn();
+  const loginFunc = jest.fn(async () => jest.fn());
 
-  const login = mount(<Login login={loginFunc} />);
+  const login = mount(<Login loginRequest={loginFunc} />);
   const form = login.find('form')
 
   it('without crashing', () => {
@@ -49,7 +49,7 @@ describe('Login Renders ', () => {
 
   it('enabled submit when email & password entered, loginFunc called', () =>{
     form.simulate('submit');
-    expect(loginFunc).toHaveBeenCalledWith('a@b', 'c');
+    expect(loginFunc).toHaveBeenCalledWith({email: 'a@b', password: 'c'});
   });
 
 });

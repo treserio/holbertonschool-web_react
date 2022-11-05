@@ -47,8 +47,11 @@ export default function Login({ loginRequest }) {
 
   function handleLoginSubmit(event) {
     event.preventDefault();
+    // accessing event values
+    // console.log(event.target.elements.email.value)
     if (state.enableSubmit) {
       loginRequest({email: state.email, password: state.password}).then((res) => {
+        // console.log(res.payload())
         res.payload ? res.payload() : null;
       })
     } else alert('Please enter email and password to proceed');
@@ -83,10 +86,3 @@ export default function Login({ loginRequest }) {
     </React.Fragment>
   )
 }
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     login: (args) => dispatch(uiActions.loginRequest(args)),
-//   }
-// }
-
-// export const ReduxLogin = connect(null, mapDispatchToProps)(Login);

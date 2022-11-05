@@ -77,27 +77,27 @@ export default class App extends React.Component {
 
   login(email, password) {
     // update state
-    this.setState({
-      user: {
-        email,
-        password,
-        isLoggedIn: true,
-      }
-    });
-    // update context
-    this.context.user = {
-      email,
-      password,
-      isLoggedIn: true,
-    };
-    console.log(this.context.store.getState())
+    // this.setState({
+    //   user: {
+    //     email,
+    //     password,
+    //     isLoggedIn: true,
+    //   }
+    // });
+    // // update context
+    // this.context.user = {
+    //   email,
+    //   password,
+    //   isLoggedIn: true,
+    // };
+    // console.log(this.context.store.getState())
     if (this.props.loginRequest) {
       // first value of loginRequest is args, thunkApi is 2nd param, looks like a store
       this.props.loginRequest({email, password}).then((res) => {
         res.payload ? this.context.store.dispatch(res.payload) : null;
       })
     };
-    setTimeout(() => console.log('timeout', this.context.store.getState()), 800);
+    // setTimeout(() => console.log('timeout', this.context.store.getState()), 800);
   }
 
   logoutListener(event) {
@@ -183,7 +183,7 @@ function mapDispatchToProps(dispatch) {
     loginSuccess: () => dispatch(uiActions.loginSuccess()), */
 
     // createAsyncThunk, thunkApi is 2nd param, looks like a store
-    loginRequest: async (args) => dispatch(await uiActions.loginRequest(args)),
+    loginRequest: (args) => dispatch(uiActions.loginRequest(args)),
     displayNotificationDrawer: () => dispatch(uiActions.displayNotificationDrawer()),
     hideNotificationDrawer: () => dispatch(uiActions.hideNotificationDrawer()),
     logout: () => dispatch(uiActions.logout()),
