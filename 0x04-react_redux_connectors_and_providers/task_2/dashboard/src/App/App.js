@@ -28,35 +28,42 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       // displayDrawer: this.props.displayDrawer,
+      /* migrating to store values
       user: AppContext._currentValue.user,
       logout: AppContext._currentValue.logout,
+      */
       listNotifications: [
         { id: 1, type: 'default', value: 'New course available' },
         { id: 2, type: 'urgent', value: 'New resume available' },
         { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
       ],
     };
+    /* migrating to store values
     // this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
     // this.handleHideDrawer = this.handleHideDrawer.bind(this);
-    this.logoutListener = this.logoutListener.bind(this);
-    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
-    this.login = this.login.bind(this);
     this.state.logout = this.state.logout.bind(this);
     // using the props that were sent in from the Redux Store
     this.state.user.isLoggedIn = this.props.isLoggedIn;
+    */
+    this.logoutListener = this.logoutListener.bind(this);
+    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    this.login = this.login.bind(this);
+
   }
 
-  // handleDisplayDrawer() {
-  //   this.setState({ displayDrawer: true });
-  //   this.props.displayNotificationDrawer();
-  //   console.log('open', this.context.store.getState());
-  // }
+  /* migrating to store actions that were bound to dispatch
+  handleDisplayDrawer() {
+    this.setState({ displayDrawer: true });
+    this.props.displayNotificationDrawer();
+    console.log('open', this.context.store.getState());
+  }
 
-  // handleHideDrawer() {
-  //   this.setState({ displayDrawer: false });
-  //   this.props.hideNotificationDrawer();
-  //   console.log('close', this.context.store.getState());
-  // }
+  handleHideDrawer() {
+    this.setState({ displayDrawer: false });
+    this.props.hideNotificationDrawer();
+    console.log('close', this.context.store.getState());
+  }
+  */
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeydown);
@@ -84,7 +91,6 @@ export default class App extends React.Component {
       isLoggedIn: true,
     };
     console.log(this.context.store.getState())
-    // if (this.props.loginSuccess) this.props.loginSuccess();
     if (this.props.loginRequest) {
       // first value of loginRequest is args, thunkApi is 2nd param, looks like a store
       this.props.loginRequest({email, password}).then((res) => {
@@ -98,7 +104,7 @@ export default class App extends React.Component {
     if (event.ctrlKey && event.key === 'h') {
       // console.log("running logoutListener")
       alert('Logging you out');
-      this.state.logout();
+      this.props.logout();
     }
   };
 
@@ -121,7 +127,7 @@ export default class App extends React.Component {
     });
 
     return (
-      <AppContext.Provider value={{user: this.state.user, logout: this.state.logout}}>
+      <AppContext.Provider value={{user: this.props.user, logout: this.props.logout}}>
         <div className='App'>
           <Provider store={this.context.store}>
             <Notifications
@@ -133,12 +139,12 @@ export default class App extends React.Component {
             />
             <Header />
             <div className={`App-body ${css(style.body)}`}>
-              {this.state.user.isLoggedIn ?
+              {this.props.user.isLoggedIn ?
                 <BodySectionWithMarginBottom title='Course list'>
                   <CourseList listCourses={listCourses} />
                 </BodySectionWithMarginBottom>
                 : <BodySectionWithMarginBottom title='Log in to continue'>
-                    <Login login={this.login} />
+                    <Login loginRequest={this.props.loginRequest} />
                   </BodySectionWithMarginBottom>
               }
               <BodySection title='News from the School'>
@@ -170,13 +176,17 @@ export function mapStateToProps(state) {
   };
 }
 
+// binding dispatch to various functions that are sent in as props
 function mapDispatchToProps(dispatch) {
   return {
-    loginSuccess: () => dispatch(uiActions.loginSuccess()),
+    /* no need for loginSuccess, loginResponse will run either success or failure
+    loginSuccess: () => dispatch(uiActions.loginSuccess()), */
+
     // createAsyncThunk, thunkApi is 2nd param, looks like a store
-    loginRequest: (args) => dispatch(uiActions.loginRequest(args)),
+    loginRequest: async (args) => dispatch(await uiActions.loginRequest(args)),
     displayNotificationDrawer: () => dispatch(uiActions.displayNotificationDrawer()),
     hideNotificationDrawer: () => dispatch(uiActions.hideNotificationDrawer()),
+    logout: () => dispatch(uiActions.logout()),
   }
 }
 

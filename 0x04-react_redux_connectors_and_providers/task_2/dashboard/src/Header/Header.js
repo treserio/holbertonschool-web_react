@@ -3,6 +3,9 @@ import { css, StyleSheet } from 'aphrodite';
 import Holb_Logo from '../assets/Holb_Logo.jpg';
 import AppContext from '../App/AppContext';
 
+
+  // instead of connecting my Header to the Redux store I feed the
+  // Redux store values in as the properties of my context...so much less work
 export default function Header() {
   const context = React.useContext(AppContext);
 

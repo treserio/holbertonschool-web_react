@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 
-export default function Login({ login }) {
+export default function Login({ loginRequest }) {
   // could have used context here
   const [state, setState] = React.useState({
     email: '',
@@ -48,9 +48,10 @@ export default function Login({ login }) {
   function handleLoginSubmit(event) {
     event.preventDefault();
     if (state.enableSubmit) {
-      login(state.email, state.password);
-    }
-    else alert('Please enter email and password to proceed');
+      loginRequest({email: state.email, password: state.password}).then((res) => {
+        res.payload ? res.payload() : null;
+      })
+    } else alert('Please enter email and password to proceed');
   }
 
   return (
@@ -82,3 +83,10 @@ export default function Login({ login }) {
     </React.Fragment>
   )
 }
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     login: (args) => dispatch(uiActions.loginRequest(args)),
+//   }
+// }
+
+// export const ReduxLogin = connect(null, mapDispatchToProps)(Login);
