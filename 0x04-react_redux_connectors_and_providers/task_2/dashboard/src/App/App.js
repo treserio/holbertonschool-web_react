@@ -85,8 +85,13 @@ export default class App extends React.Component {
     };
     console.log(this.context.store.getState())
     // if (this.props.loginSuccess) this.props.loginSuccess();
-    if (this.props.loginRequest) this.props.loginRequest(email, password);
-    console.log(this.context.store.getState())
+    if (this.props.loginRequest) {
+      // first value of loginRequest is args, thunkApi is 2nd param, looks like a store
+      this.props.loginRequest({email, password}).then((res) => {
+        res.payload ? this.context.store.dispatch(res.payload) : null;
+      })
+    };
+    setTimeout(() => console.log('timeout', this.context.store.getState()), 800);
   }
 
   logoutListener(event) {
@@ -118,28 +123,28 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider value={{user: this.state.user, logout: this.state.logout}}>
         <div className='App'>
-          <Notifications
-            displayDrawer={this.props.displayDrawer}
-            listNotifications={this.state.listNotifications}
-            handleHideDrawer={this.props.hideNotificationDrawer}
-            handleDisplayDrawer={this.props.displayNotificationDrawer}
-            markNotificationAsRead={this.markNotificationAsRead}
-          />
-          <Header />
-          <div className={`App-body ${css(style.body)}`}>
-            {this.state.user.isLoggedIn ?
-              <BodySectionWithMarginBottom title='Course list'>
-                <CourseList listCourses={listCourses} />
-              </BodySectionWithMarginBottom>
-              : <BodySectionWithMarginBottom title='Log in to continue'>
-                  <Login login={this.login} />
-                </BodySectionWithMarginBottom>
-            }
-            <BodySection title='News from the School'>
-              <p>my balognia has a first name...</p>
-            </BodySection>
-          </div>
           <Provider store={this.context.store}>
+            <Notifications
+              displayDrawer={this.props.displayDrawer}
+              listNotifications={this.state.listNotifications}
+              handleHideDrawer={this.props.hideNotificationDrawer}
+              handleDisplayDrawer={this.props.displayNotificationDrawer}
+              markNotificationAsRead={this.markNotificationAsRead}
+            />
+            <Header />
+            <div className={`App-body ${css(style.body)}`}>
+              {this.state.user.isLoggedIn ?
+                <BodySectionWithMarginBottom title='Course list'>
+                  <CourseList listCourses={listCourses} />
+                </BodySectionWithMarginBottom>
+                : <BodySectionWithMarginBottom title='Log in to continue'>
+                    <Login login={this.login} />
+                  </BodySectionWithMarginBottom>
+              }
+              <BodySection title='News from the School'>
+                <p>my balognia has a first name...</p>
+              </BodySection>
+            </div>
             <ReduxFooter />
           </Provider>
         </div>
@@ -168,7 +173,8 @@ export function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     loginSuccess: () => dispatch(uiActions.loginSuccess()),
-    loginRequest: (em, pw) => dispatch(uiActions.loginRequest(em, pw)),
+    // createAsyncThunk, thunkApi is 2nd param, looks like a store
+    loginRequest: (args) => dispatch(uiActions.loginRequest(args)),
     displayNotificationDrawer: () => dispatch(uiActions.displayNotificationDrawer()),
     hideNotificationDrawer: () => dispatch(uiActions.hideNotificationDrawer()),
   }

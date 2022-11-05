@@ -1,4 +1,6 @@
 import uiTypes from './uiActionTypes';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import uiActionTypes from './uiActionTypes';
 
 export function login(email, password) {
   return {
@@ -37,9 +39,19 @@ export function loginFailure() {
   }
 }
 
-export async function loginRequest(email, password) {
-  login(email, password);
-  let res = await fetch('../../dist/login-success.json');
-  console.log('jumanji', res.body.toString())
-  return res.body.toString() ? loginSuccess() : loginFailure();
-}
+export const loginRequest = createAsyncThunk(
+  uiTypes.LOGIN,
+  async (args, store) => {
+    console.log('args', args, 'store', store);
+    console.log(login(args.email, args.password));
+    // fetch path seems relative to the dist folder, relative to bundle.js
+    let res = await fetch('./login-success.json');
+    if (res.status === 200) {
+      console.log('status', res.status);
+      store.dispatch(login(args.email, args.password));
+      return loginSuccess();
+    } else {
+      return loginFailure();
+    }
+  }
+);

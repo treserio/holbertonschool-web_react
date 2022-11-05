@@ -1,14 +1,16 @@
 import React, { createContext } from 'react';
 import { configureStore } from '@reduxjs/toolkit';
 import uiReducer from '../reducers/uiReducer';
-import thunk from 'redux-thunk';
+
 
 const store = configureStore({
   reducer: uiReducer,
   preloadedState: {
     ui: uiReducer(undefined, {}),
   },
-  middleware: (getDefault) => getDefault({ serializableCheck: false })
+  middleware: (getDefault) => getDefault({
+    serializableCheck: false,
+  })
 });
 
 // Default user object
