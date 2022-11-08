@@ -6,7 +6,9 @@ import { assert } from 'chai';
 import { StyleSheetTestUtils } from 'aphrodite';
 import { Map } from 'immutable';
 
-global.console.log = jest.fn()
+// global.console.log = jest.fn()
+// looks like we can spy on React's useContext hook to catch the store that's fed into our ReduxApp
+const spy = jest.spyOn(React, 'useContext');
 
 describe('App Renders', () => {
 
@@ -20,15 +22,14 @@ describe('App Renders', () => {
 
   const alert = jest.spyOn(window, 'alert').mockImplementation((text) => console.log(text));
 
-  /* Seems we could mock all the implementation for connect to create a new ReduxApp with our mocks that we could spyOn
-  but since all of that functionality is being tested for each component this feels like a lot of work to recreate
-  and maintain through our changes.
-  */
   const reduxApp = mount(<ReduxApp />).find('App');
   /* Redux issue, for some reason spyOn fails to see that this function runs,
   even when I confirm the test runs console.logs in the function
   and this behavior is true for any function passed through mapDispatchToProps...
   const logout = jest.spyOn(reduxApp.props(), 'logout'); */
+
+  // we can find the store in our ReduxApp's context through our spy, however changes here aren't reflected in our ReduxApp's props
+  const store = spy.mock.calls[0][0]._currentValue.store;
 
   const header = reduxApp.find('Header');
   const body = reduxApp.find('.App-body');
@@ -91,11 +92,11 @@ describe('App Renders', () => {
     reduxApp.find('form').find('input').first().simulate('change', { target: { value: 'a@b' }});
     reduxApp.find('input').at(1).simulate('change', { target: { value: 'c' }});
     reduxApp.find('form').simulate('submit');
-    // we're unabe to see the results of this since we're in a Redux component
+    // we're unabe to see the results of this since we're in a Redux component and loginRequest is async
     // by confirming that alert is NOT called after resetting alert, we can assume
     // the functionality went through okay.
     expect(alert).toHaveBeenCalledTimes(0);
-    /* would like to test props here, but test won't wait for loginRequest
+    /* I've also tried using our store.getState() spy, but again because of async call it never shows the change
     assert.notStrictEqual(reduxApp.state().user, {
       email: 'a@b',
       password: 'c',
@@ -103,8 +104,18 @@ describe('App Renders', () => {
     });
     */
   });
+
+  // because state changes aren't reflected in props changes in time to test, the reverse test is invalid
+  it('store.ui.isNotificationDrawerVisible false, and true after .menuItem is clicked', () => {
+    assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), false);
+    reduxApp.find('.menuItem').simulate('click');
+    assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), true);
+    console.log('props', reduxApp.props())
+  });
+
   /* Invalid Tests with Redux
   dispatch events aren't triggering in a time frame, or way, for testing to check their results
+
   it('updated Notifications when one is clicked, will run markNotificationAsRead', () => {
     reduxApp.find('.menuItem').simulate('click');
     assert.equal(reduxApp.find('NotificationItem').length, 3);
@@ -113,17 +124,11 @@ describe('App Renders', () => {
     assert.equal(reduxApp.find('NotificationItem').length, 2);
   });
 
-  // need to check that the store context is updated instead of the state
-  it('reduxApp.state.displayDrawer is false, and true after handleDisplayDrawer', () => {
-    assert.equal(reduxApp.props().displayDrawer, false);
-    reduxApp.find('.menuItem').simulate('click');
-    // reduxApp.instance().handleDisplayDrawer();
-    assert.equal(reduxApp.props().displayDrawer, true);
-  });
-
-  it('reduxApp.state.displayDrawer is true, and false after handleHideDrawer', () => {
-    reduxApp.find('.menuItem').simulate('click');
-    assert.equal(reduxApp.props().displayDrawer, false);
+  it('store.ui.isNotificationDrawerVisible true, and false after .closeBtn is clicked', () => {
+    assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), true);
+    // no button is found, menuItem is still present
+    reduxApp.find('.closeBtn').simulate('click');
+    assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), false);
   });
   */
 });
@@ -193,5 +198,4 @@ describe('mapStateToProps returns', () => {
       .toEqual(rtnProps)
   });
 
-// maybe good to confirm mapDispatchToProps here
 });
