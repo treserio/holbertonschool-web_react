@@ -20,19 +20,19 @@ function NotificationItem({ markNotificationAsRead, type, value, html, id }) {
     return  <li
               className={css(style.li)}
               data-priority={type}
-              onClick={() => markNotificationAsRead(id)}
+              onClick={() => markNotificationAsRead({ index: id })}
             >{value}</li>;
   }
   return <li
           className={css(style.li)}
           data-priority={type}
           dangerouslySetInnerHTML={html}
-          onClick={() => markNotificationAsRead(id)}
+          onClick={() => markNotificationAsRead({ index: id })}
          />;
 }
 
 NotificationItem.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   html: PropTypes.shape({ __html: PropTypes.string }),
   type: PropTypes.string.isRequired,
   value: PropTypes.string,

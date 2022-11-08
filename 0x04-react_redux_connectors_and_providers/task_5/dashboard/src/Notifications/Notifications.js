@@ -3,9 +3,22 @@ import PropTypes from 'prop-types';
 import { css, StyleSheet } from 'aphrodite';
 import NotificationItem from './NotificationItem';
 import closeIcon from '../assets/close-icon.png';
-import NotificationItemShape from './NotificationItemShape'
+import NotificationItemShape from './NotificationItemShape';
+import { connect } from 'react-redux';
+import * as noteActions from '../actions/notificationActionCreators';
+
+// listNotifications: [
+//   { id: 1, type: 'default', value: 'New course available' },
+//   { id: 2, type: 'urgent', value: 'New resume available' },
+//   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
+// ],
 
 export default class Notifications extends React.PureComponent {
+
+  componentDidMount() {
+    this.props.fetchNotifications().then(() => console.log('initial fetch', this.props.listNotifications));
+  }
+
   render () {
     // bouce animation
     const bounce = {
@@ -46,13 +59,13 @@ export default class Notifications extends React.PureComponent {
         border: '1px red dashed',
         padding: '1rem',
         margin: '2rem 1rem',
+        background: 'white',
         '@media (max-width: 900px)': {
           border: 'none',
           padding: 0,
           margin: 0,
           height: '100vh',
           width: '100vw',
-          backgroundColor: 'white',
         },
       },
       wrapper: {
@@ -88,21 +101,23 @@ export default class Notifications extends React.PureComponent {
                 <p>Here is the list of notifications</p>
                 <ul className={css(style.ul)}>
                   {this.props.listNotifications.map((note) =>
-                    note.html ?
-                      <NotificationItem
-                        key={note.id}
-                        id={note.id}
-                        type={note.type}
-                        html={note.html}
-                        markNotificationAsRead={this.props.markNotificationAsRead}
-                      />
-                    : <NotificationItem
-                        key={note.id}
-                        id={note.id}
-                        type={note.type}
-                        value={note.value}
-                        markNotificationAsRead={this.props.markNotificationAsRead}
-                      />
+                    !note.isRead ?
+                      note.html ?
+                        <NotificationItem
+                          key={note.id}
+                          id={note.id}
+                          type={note.type}
+                          html={note.html}
+                          markNotificationAsRead={this.props.markNotificationAsRead}
+                        />
+                      : <NotificationItem
+                          key={note.id}
+                          id={note.id}
+                          type={note.type}
+                          value={note.value}
+                          markNotificationAsRead={this.props.markNotificationAsRead}
+                        />
+                    : null
                   )}
                 </ul>
               </React.Fragment>
@@ -137,3 +152,20 @@ Notifications.defaultProps = {
   handleDisplayDrawer: () => console.log('handleDisplayDrawer missing'),
   markNotificationAsRead: (id) => console.log(`Notification ${id} has been marked as read`),
 }
+
+// functions for redux connect parameters
+export function mapStateToProps(state) {
+  return {
+    listNotifications: state.notes.get('notifications'),
+  };
+}
+
+// binding dispatch to various functions that are sent in as props
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchNotifications: () => dispatch(noteActions.fetchNotifications()),
+    markNotificationAsRead: (args) => dispatch(noteActions.markAsRead(args)),
+  }
+}
+
+export const ReduxNotes = connect(mapStateToProps, mapDispatchToProps, null)(Notifications);

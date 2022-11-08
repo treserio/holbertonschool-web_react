@@ -1,10 +1,11 @@
 import noteTypes, { NotificationTypeFilters } from './notificationActionTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export function markAsRead(index) {
+export function markAsRead(args) {
+  console.log('mar args', args);
   return {
     type: noteTypes.MARK_AS_READ,
-    index,
+    index: args.index,
   };
 }
 
@@ -14,13 +15,6 @@ export function setNotificationFilter(filter) {
     filter: NotificationTypeFilters[filter.toUpperCase()],
   };
 }
-
-// export function fetchNotifications(data) {
-//   return {
-//     type: noteTypes.FETCH_NOTIFICATIONS_SUCCESS,
-//     data,
-//   }
-// }
 
 export function setLoadingState(loading) {
   return {

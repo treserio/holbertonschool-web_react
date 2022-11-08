@@ -4,16 +4,17 @@ import { css, StyleSheet } from 'aphrodite';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import CourseList from '../CourseList/CourseList';
-import Footer from '../Footer/Footer';
-import {ReduxFooter} from '../Footer/Footer';
+import Footer, {ReduxFooter} from '../Footer/Footer';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
-import Notifications from '../Notifications/Notifications';
+import Notifications, { ReduxNotes } from '../Notifications/Notifications';
 import WithLogging from '../HOC/WithLogging';
 import { getLatestNotification } from '../utils/utils';
 import AppContext from './AppContext';
 import { connect, Provider } from 'react-redux';
 import * as uiActions from '../actions/uiActionCreators';
+
+
 
 const listCourses = [
   { id: '1', name: 'ES6', credit: 60 },
@@ -31,12 +32,12 @@ export default class App extends React.Component {
       /* migrating to store values
       user: AppContext._currentValue.user,
       logout: AppContext._currentValue.logout,
-      */
       listNotifications: [
         { id: 1, type: 'default', value: 'New course available' },
         { id: 2, type: 'urgent', value: 'New resume available' },
         { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
       ],
+      */
     };
     /* migrating to store values
     // this.handleDisplayDrawer = this.handleDisplayDrawer.bind(this);
@@ -46,7 +47,7 @@ export default class App extends React.Component {
     this.state.user.isLoggedIn = this.props.isLoggedIn;
     */
     this.logoutListener = this.logoutListener.bind(this);
-    this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
+    // this.markNotificationAsRead = this.markNotificationAsRead.bind(this);
     this.login = this.login.bind(this);
 
   }
@@ -108,12 +109,12 @@ export default class App extends React.Component {
     }
   };
 
-  markNotificationAsRead(id) {
-    let ln = this.state.listNotifications
-    this.setState({
-      listNotifications: ln.filter((note) => note.id !== id),
-    });
-  };
+  // markNotificationAsRead(id) {
+  //   let ln = this.state.listNotifications
+  //   this.setState({
+  //     listNotifications: ln.filter((note) => note.id !== id),
+  //   });
+  // };
 
   render () {
     const style = StyleSheet.create({
@@ -130,12 +131,12 @@ export default class App extends React.Component {
       <AppContext.Provider value={{user: this.props.user, logout: this.props.logout}}>
         <div className='App'>
           <Provider store={this.context.store}>
-            <Notifications
+            <ReduxNotes
               displayDrawer={this.props.displayDrawer}
-              listNotifications={this.state.listNotifications}
+              // listNotifications={this.state.listNotifications}
               handleHideDrawer={this.props.hideNotificationDrawer}
               handleDisplayDrawer={this.props.displayNotificationDrawer}
-              markNotificationAsRead={this.markNotificationAsRead}
+              // markNotificationAsRead={this.state.markAsRead}
             />
             <Header />
             <div className={`App-body ${css(style.body)}`}>

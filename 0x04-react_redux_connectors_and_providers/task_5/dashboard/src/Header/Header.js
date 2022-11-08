@@ -2,6 +2,7 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import Holb_Logo from '../assets/Holb_Logo.jpg';
 import AppContext from '../App/AppContext';
+import { ReduxApp } from '../App/App';
 
 
   // instead of connecting my Header to the Redux store I feed the
@@ -13,6 +14,7 @@ export default function Header() {
     logo: {
       width: '240px',
       height: '240px',
+      marginRight: '25px',
     },
     header: {
       display: 'flex',
@@ -20,6 +22,7 @@ export default function Header() {
       alignItems: 'center',
       borderBottom: 'medium solid red',
       borderBottomColor: 'red',
+      color: 'red',
     },
     logout: {
       position: 'absolute',
