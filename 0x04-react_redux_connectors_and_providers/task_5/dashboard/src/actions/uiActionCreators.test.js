@@ -51,19 +51,40 @@ describe('uiActionCreators testing', () => {
 
   it('confirm loginRequest returns correct object', async () => {
     fetch.mockResponseOnce('stuff and things');
-    store.dispatch(uiActions.loginRequest({a: 'some', b: 'text'}, store.dispatch))
+    store.dispatch(uiActions.loginRequest({email: 'em', password: 'pw'}))
       .then((res) => {
         // console.log(res.payload());
+        // console.log('uiStore', store.getActions());
+        expect(store.getActions())
+          .toEqual(
+            expect.arrayContaining([
+              { type: 'LOGIN', user: { email: 'em', password: 'pw' } },
+              // since the meta.requestId changes on call need partial match here
+              expect.objectContaining({
+                type: 'ui/loginRequest/fulfilled',
+              }),
+            ])
+          );
         expect(res.payload()).toEqual({ type: 'LOGIN_SUCCESS' });
       })
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
   it('confirm loginRequest returns correct object when fetch fails', async () => {
+    // reset store actions, atm only needed once, may need to set in beforeEach
+    store.clearActions();
     fetch.mockResponseOnce('Not Found', { status: 404 })
-    store.dispatch(uiActions.loginRequest({a: 'some', b: 'text'}, store.dispatch))
+    store.dispatch(uiActions.loginRequest({email: 'em', password: 'pw'}))
       .then((res) => {
-        // console.log(res.payload());
+        expect(store.getActions())
+        .toEqual(
+          expect.arrayContaining([
+            // since the meta.requestId changes on call need partial match here
+            expect.objectContaining({
+              type: 'ui/loginRequest/fulfilled',
+            }),
+          ])
+        );
         expect(res.payload()).toEqual({ type: 'LOGIN_FAILURE' })
       })
     expect(fetch).toHaveBeenCalledTimes(2);

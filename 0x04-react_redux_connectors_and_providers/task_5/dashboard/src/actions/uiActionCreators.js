@@ -40,10 +40,9 @@ export function loginFailure() {
 }
 
 export const loginRequest = createAsyncThunk(
-  uiTypes.LOGIN,
+  'ui/loginRequest',
   async (args, store) => {
     // console.log('args', args, 'store', store);
-    // console.log(login(args.email, args.password));
     // fetch path seems relative to the dist folder, relative to bundle.js
     let res = await fetch('./login-success.json');
     // console.log(res.status)

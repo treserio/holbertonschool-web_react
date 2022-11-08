@@ -37,18 +37,19 @@ export function setNotifications(data) {
 }
 
 export const fetchNotifications = createAsyncThunk(
-  'notes/fetchNotes',
+  'note/fetchNotes',
   async (args, store) => {
-    console.log('args', args)
     store.dispatch(setLoadingState(true));
-    let res = await fetch('./notifications.json');
-    console.log('fetchRes', res)
-    console.log('json', res.body.toString())
-    if (res.status === 200) {
-      store.dispatch(setNotifications(['a',]));
-    } else {
-      console.log('no notes');
-    }
-    store.dispatch(setLoadingState(false))
+    // fetch and .json return promises
+    fetch('./notifications.json')
+      .then((res) => {
+        if (res.status === 200) {
+          res.json().then((data) => {
+            // console.log('data', data);
+            store.dispatch(setNotifications(data));
+          });
+        } else console.log('no notes');
+      });
+    store.dispatch(setLoadingState(false));
   }
 )

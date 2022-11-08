@@ -1,16 +1,8 @@
 import notesReducer from './notificationReducer';
 import * as noteActions from '../actions/notificationActionCreators';
 const { Map } = require('immutable');
-import fetchMock from 'jest-fetch-mock';
-import mockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
-fetchMock.enableMocks();
 
 describe('notificationReducer testing', () => {
-  const initStore = mockStore([thunk]);
-  let store = initStore();
-
   const fnsAction = noteActions.setNotifications([
     {
       id: 1,
@@ -26,7 +18,7 @@ describe('notificationReducer testing', () => {
       id: 3,
       type: "urgent",
       value: "New data available"
-    }
+    },
   ]);
 
   const fnsReturn = Map({
@@ -49,7 +41,7 @@ describe('notificationReducer testing', () => {
         type: "urgent",
         value: "New data available",
         isRead: false,
-      }
+      },
     ]
   });
 
@@ -85,18 +77,6 @@ describe('notificationReducer testing', () => {
     expect(
       notesReducer(fnsReturn, noteActions.setNotificationFilter('urgent'))
         .get('filter')
-    )
-      .toEqual('URGENT');
-  });
-
-  it('confirm fetchNotifications returns correct object', async () => {
-    // fetch.mockResponseOnce('{"a": "b", "c": "d"}');
-    // not dispatching?
-    store.dispatch(noteActions.fetchNotifications())
-      .then((res) => {
-        console.log('wtf', res);
-        expect(res.payload()).toEqual({ type: 'LOGIN_SUCCESS' });
-      })
-    expect(fetch).toHaveBeenCalledTimes(1);
+    ).toEqual('URGENT');
   });
 });

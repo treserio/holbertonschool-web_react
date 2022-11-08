@@ -20,6 +20,10 @@ describe('App Renders', () => {
 
   const alert = jest.spyOn(window, 'alert').mockImplementation((text) => console.log(text));
 
+  /* Seems we could mock all the implementation for connect to create a new ReduxApp with our mocks that we could spyOn
+  but since all of that functionality is being tested for each component this feels like a lot of work to recreate
+  and maintain through our changes.
+  */
   const reduxApp = mount(<ReduxApp />).find('App');
   /* Redux issue, for some reason spyOn fails to see that this function runs,
   even when I confirm the test runs console.logs in the function
