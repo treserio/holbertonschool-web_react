@@ -12,13 +12,14 @@ export default function notificationReducer(state = defaultState, action) {
   switch (action.type) {
     case noteActions.FETCH_NOTIFICATIONS_SUCCESS:
       const normalized = notificationNormalizer(action.data);
+      console.log('norm', normalized);
       return state.mergeDeep({
-        notifications: Object.values(normalized.entities.notifications)
+        notifications: Object.values(normalized.entities.messages)
           .map((note) => ({
-            id: note.id,
-            value: normalized.entities.messages[note.context].value,
-            type: normalized.entities.messages[note.context].type,
-            isRead: normalized.entities.messages[note.context].isRead,
+            id: note.guid,
+            value: note.value,
+            type: note.type,
+            isRead: note.isRead,
           }))
       });
     case noteActions.MARK_AS_READ:

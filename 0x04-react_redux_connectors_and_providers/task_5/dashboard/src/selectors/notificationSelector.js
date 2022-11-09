@@ -1,5 +1,5 @@
 export default {
-  filterTypeSelected: (state) => state.get('filter'),
-  getNotifications: (state) => state.get('notifications'),
-  getUnreadNotifications: (state) => state.get('notifications').filter((note) => !note.isRead),
+  filterTypeSelected: (state) => state.notes.get('filter'),
+  getNotifications: (state) => state.notes.get('notifications'),
+  getUnreadNotifications: (state) => state.notes.get('notifications').filter((note) => !note.isRead),
 }

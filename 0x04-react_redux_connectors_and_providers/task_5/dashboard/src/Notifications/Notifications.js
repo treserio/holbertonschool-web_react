@@ -6,6 +6,7 @@ import closeIcon from '../assets/close-icon.png';
 import NotificationItemShape from './NotificationItemShape';
 import { connect } from 'react-redux';
 import * as noteActions from '../actions/notificationActionCreators';
+import noteSelectors from '../selectors/notificationSelector';
 
 export default class Notifications extends React.PureComponent {
 
@@ -83,6 +84,7 @@ export default class Notifications extends React.PureComponent {
       }
     });
 
+    console.log('rndr', this.props.listNotifications)
     return (
       <div className={css(style.wrapper)}>
         {!this.props.displayDrawer &&
@@ -90,7 +92,7 @@ export default class Notifications extends React.PureComponent {
         }
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
-            {this.props.listNotifications.filter((note) => !note.isRead).length ?
+            {this.props.listNotifications.length ?
               <React.Fragment>
                 <p>Here is the list of notifications</p>
                 <ul className={css(style.ul)}>
@@ -150,7 +152,7 @@ Notifications.defaultProps = {
 // functions for redux connect parameters
 export function mapStateToProps(state) {
   return {
-    listNotifications: state.notes.get('notifications'),
+    listNotifications: noteSelectors.getUnreadNotifications(state),
   };
 }
 
