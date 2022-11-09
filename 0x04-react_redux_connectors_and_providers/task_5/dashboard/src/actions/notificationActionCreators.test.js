@@ -10,20 +10,38 @@ describe('notificationActionCreators testing', () => {
   let store = initStore();
 
   it('confirm markAsRead returns correct object', () => {
-    expect(noteActions.markAsRead(1)).toEqual({
-      type: 'MARK_AS_READ',
-      index: 1,
-    });
+    expect(noteActions.markAsRead({ index: 1 }))
+    .toEqual({
+        type: 'MARK_AS_READ',
+        index: 1,
+      });
   });
 
   it('confirm setNotificationFilter returns correct object', () => {
-    expect(noteActions.setNotificationFilter('default')).toEqual({
-      type: 'SET_TYPE_FILTER',
-      filter: 'DEFAULT',
-    });
+    expect(noteActions.setNotificationFilter('default'))
+      .toEqual({
+        type: 'SET_TYPE_FILTER',
+        filter: 'DEFAULT',
+      });
   });
 
-  it('confirm fetchNotifications returns correct object', async () => {
+  it('confirm setLoadingState returns correct object', () => {
+    expect(noteActions.setLoadingState(true))
+      .toEqual({
+        type: 'SET_LOADING_STATE',
+        loading: true,
+      });
+  });
+
+  it('confirm setNotifications returns correct object', () => {
+    expect(noteActions.setNotifications(['a', 'b', 'c', 'd']))
+      .toEqual({
+        type: 'FETCH_NOTIFICATIONS_SUCCESS',
+        data: ['a', 'b', 'c', 'd'],
+      });
+  });
+
+  it('confirm fetchNotifications returns correct object', () => {
     fetch.mockResponseOnce(JSON.stringify({ notes: 'testing' }));
     // test the .then on the dispatch call to see all the dispatch inside the async thunk action
     store.dispatch(noteActions.fetchNotifications())

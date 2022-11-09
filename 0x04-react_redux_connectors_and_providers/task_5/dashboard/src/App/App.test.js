@@ -6,7 +6,7 @@ import { assert } from 'chai';
 import { StyleSheetTestUtils } from 'aphrodite';
 import { Map } from 'immutable';
 
-// global.console.log = jest.fn()
+global.console.log = jest.fn()
 // looks like we can spy on React's useContext hook to catch the store that's fed into our ReduxApp
 const spy = jest.spyOn(React, 'useContext');
 
@@ -110,7 +110,6 @@ describe('App Renders', () => {
     assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), false);
     reduxApp.find('.menuItem').simulate('click');
     assert.equal(store.getState().ui.get('isNotificationDrawerVisible'), true);
-    console.log('props', reduxApp.props())
   });
 
   /* Invalid Tests with Redux

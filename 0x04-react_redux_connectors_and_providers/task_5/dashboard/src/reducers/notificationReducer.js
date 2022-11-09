@@ -23,7 +23,7 @@ export default function notificationReducer(state = defaultState, action) {
       });
     case noteActions.MARK_AS_READ:
       const index = state.get('notifications').findIndex((note) => note.id === action.index);
-      console.log('idx', index);
+      // console.log('idx', index);
       return state.setIn(['notifications', index, 'isRead'], true);
     case noteActions.SET_TYPE_FILTER:
       return state.set('filter', action.filter);

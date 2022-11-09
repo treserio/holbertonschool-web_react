@@ -7,16 +7,10 @@ import NotificationItemShape from './NotificationItemShape';
 import { connect } from 'react-redux';
 import * as noteActions from '../actions/notificationActionCreators';
 
-// listNotifications: [
-//   { id: 1, type: 'default', value: 'New course available' },
-//   { id: 2, type: 'urgent', value: 'New resume available' },
-//   { id: 3, type: 'urgent', html: { __html: getLatestNotification() } },
-// ],
-
 export default class Notifications extends React.PureComponent {
 
   componentDidMount() {
-    this.props.fetchNotifications().then(() => console.log('initial fetch', this.props.listNotifications));
+    this.props.fetchNotifications();
   }
 
   render () {
@@ -96,7 +90,7 @@ export default class Notifications extends React.PureComponent {
         }
         {this.props.displayDrawer &&
           <div className={`Notifications ${css(style.noteBox)}`} >
-            {this.props.listNotifications.length ?
+            {this.props.listNotifications.filter((note) => !note.isRead).length ?
               <React.Fragment>
                 <p>Here is the list of notifications</p>
                 <ul className={css(style.ul)}>

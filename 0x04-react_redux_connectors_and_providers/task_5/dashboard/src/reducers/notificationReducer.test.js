@@ -5,41 +5,84 @@ const { Map } = require('immutable');
 describe('notificationReducer testing', () => {
   const fnsAction = noteActions.setNotifications([
     {
-      id: 1,
-      type: "default",
-      value: "New course available"
+      "id": "1",
+      "author": {
+        "id": "5debd764a7c57c7839d722e9",
+        "name": {
+          "first": "Poole",
+          "last": "Sanders"
+        },
+        "email": "poole.sanders@holberton.nz",
+        "picture": "http://placehold.it/32x32",
+        "age": 25
+      },
+      "context": {
+        "guid": "2d8e40be-1c78-4de0-afc9-fcc147afd4d2",
+        "isRead": true,
+        "type": "urgent",
+        "value": "Test 1",
+      }
     },
     {
-      id: 2,
-      type: "urgent",
-      value: "New resume available"
+      "id": "2",
+      "author": {
+        "id": "5debd7648ba8641ce0a34ea4",
+        "name": {
+          "first": "Norton",
+          "last": "Grimes"
+        },
+        "email": "norton.grimes@holberton.nz",
+        "picture": "http://placehold.it/32x32",
+        "age": 37
+      },
+      "context": {
+        "guid": "cec84b7a-7be4-4af0-b833-f1485433f66e",
+        "isRead": false,
+        "type": "urgent",
+        "value": "Test 2"
+      }
     },
     {
-      id: 3,
-      type: "urgent",
-      value: "New data available"
+      "id": "3",
+      "author": {
+        "id": "5debd764a7c57c7839d722e9",
+        "name": {
+          "first": "Poole",
+          "last": "Sanders"
+        },
+        "email": "poole.sanders@holberton.nz",
+        "picture": "http://placehold.it/32x32",
+        "age": 25
+      },
+      "context": {
+        "guid": "280913fe-38dd-4abd-8ab6-acdb4105f922",
+        "isRead": false,
+        "type": "default",
+        "value": "Test 3"
+      }
     },
   ]);
 
   const fnsReturn = Map({
     filter: 'DEFAULT',
+    loading: false,
     notifications: [
       {
-        id: 1,
+        id: '1',
+        type: 'urgent',
+        value: 'Test 1',
+        isRead: true,
+      },
+      {
+        id: '2',
+        type: 'urgent',
+        value: 'Test 2',
+        isRead: false,
+      },
+      {
+        id: '3',
         type: "default",
-        value: "New course available",
-        isRead: false,
-      },
-      {
-        id: 2,
-        type: "urgent",
-        value: "New resume available",
-        isRead: false,
-      },
-      {
-        id: 3,
-        type: "urgent",
-        value: "New data available",
+        value: 'Test 3',
         isRead: false,
       },
     ]
@@ -47,6 +90,7 @@ describe('notificationReducer testing', () => {
 
   const defaultState = Map({
     filter: 'DEFAULT',
+    loading: false,
     notifications: [],
   });
 
@@ -61,13 +105,13 @@ describe('notificationReducer testing', () => {
   });
 
   it('the MARK_AS_READ action returns the correct data', () => {
-    const marReturn = notesReducer(fnsReturn, noteActions.markAsRead(2));
+    const marReturn = notesReducer(fnsReturn, noteActions.markAsRead({ index: '2' }));
     expect(marReturn.get('notifications'))
       .toEqual(
         expect.arrayContaining([{
-          id: 2,
+          id: '2',
           type: "urgent",
-          value: "New resume available",
+          value: "Test 2",
           isRead: true,
         }])
       );
