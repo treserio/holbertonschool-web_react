@@ -36,7 +36,7 @@ describe('notificationActionCreators testing', () => {
   it('confirm setNotifications returns correct object', () => {
     expect(noteActions.setNotifications(['a', 'b', 'c', 'd']))
       .toEqual({
-        type: 'FETCH_NOTIFICATIONS_SUCCESS',
+        type: 'SET_NOTIFICATIONS',
         data: ['a', 'b', 'c', 'd'],
       });
   });
@@ -54,10 +54,10 @@ describe('notificationActionCreators testing', () => {
             expect.arrayContaining([
               { type: 'SET_LOADING_STATE', loading: true },
               { type: 'SET_LOADING_STATE', loading: false },
-              { type: 'FETCH_NOTIFICATIONS_SUCCESS', data: { notes: 'testing' } },
+              { type: 'SET_NOTIFICATIONS', data: { notes: 'testing' } },
               // since the meta.requestId changes on call need partial match here
               expect.objectContaining({
-                type: 'note/fetchNotes/fulfilled',
+                type: 'notes/fetchNotes/fulfilled',
                 payload: undefined,
               }),
             ])

@@ -24,13 +24,14 @@ export function setLoadingState(loading) {
 
 export function setNotifications(data) {
   return {
-    type: noteTypes.FETCH_NOTIFICATIONS_SUCCESS,
+    // FETCH_NOTIFICATIONS_SUCCESS felt like an anti-pattern
+    type: noteTypes.SET_NOTIFICATIONS,
     data,
   }
 }
 
 export const fetchNotifications = createAsyncThunk(
-  'note/fetchNotes',
+  'notes/fetchNotes',
   async (args, store) => {
     store.dispatch(setLoadingState(true));
     // fetch and .json return promises

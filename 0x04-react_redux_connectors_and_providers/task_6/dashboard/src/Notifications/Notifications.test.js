@@ -134,7 +134,7 @@ describe('Notifications Renders', () => {
           { type: 'MARK_AS_READ', index: '3' },
           // since the meta.requestId changes on call need partial match here
           expect.objectContaining({
-            type: 'note/fetchNotes/fulfilled',
+            type: 'notes/fetchNotes/fulfilled',
           }),
         ])
       );

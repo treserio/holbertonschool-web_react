@@ -10,7 +10,7 @@ const defaultState = Map({
 
 export default function notificationReducer(state = defaultState, action) {
   switch (action.type) {
-    case noteActions.FETCH_NOTIFICATIONS_SUCCESS:
+    case noteActions.SET_NOTIFICATIONS:
       const normalized = notificationNormalizer(action.data);
       // console.log('norm', normalized);
       return state.mergeDeep({
