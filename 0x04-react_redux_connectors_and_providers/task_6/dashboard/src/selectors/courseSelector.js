@@ -1,3 +1,3 @@
 export default {
-  getCourses: (state) => state.courses.valueSeq(),
+  getCourses: (state) => state.courses,
 }

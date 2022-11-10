@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { css, StyleSheet } from 'aphrodite';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
-import CourseList from '../CourseList/CourseList';
+import CourseList, { ReduxCourses } from '../CourseList/CourseList';
 import Footer, {ReduxFooter} from '../Footer/Footer';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
@@ -142,7 +142,7 @@ export default class App extends React.Component {
             <div className={`App-body ${css(style.body)}`}>
               {this.props.user.isLoggedIn ?
                 <BodySectionWithMarginBottom title='Course list'>
-                  <CourseList listCourses={listCourses} />
+                  <ReduxCourses />
                 </BodySectionWithMarginBottom>
                 : <BodySectionWithMarginBottom title='Log in to continue'>
                     <Login loginRequest={this.props.loginRequest} />

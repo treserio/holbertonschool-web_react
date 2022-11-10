@@ -3,7 +3,7 @@ import * as noteActions from '../actions/notificationActionCreators';
 const { Map } = require('immutable');
 
 describe('notificationReducer testing', () => {
-  const fnsAction = noteActions.setNotifications([
+  const setAction = noteActions.setNotifications([
     {
       "id": "5debd76480edafc8af244228",
       "author": {
@@ -63,7 +63,7 @@ describe('notificationReducer testing', () => {
     },
   ]);
 
-  const fnsReturn = Map({
+  const setReturn = Map({
     filter: 'DEFAULT',
     loading: false,
     notifications: [
@@ -99,13 +99,13 @@ describe('notificationReducer testing', () => {
       .toEqual(defaultState);
   });
 
-  it('the FETCH_NOTIFICATIONS_SUCCESS action returns the correct data', () => {
-    expect(notesReducer(undefined, fnsAction))
-      .toEqual(fnsReturn);
+  it('the SET_NOTIFICATIONS action returns the correct data', () => {
+    expect(notesReducer(undefined, setAction))
+      .toEqual(setReturn);
   });
 
   it('the MARK_AS_READ action returns the correct data', () => {
-    const marReturn = notesReducer(fnsReturn, noteActions.markAsRead({ index: '2' }));
+    const marReturn = notesReducer(setReturn, noteActions.markAsRead({ index: '2' }));
     expect(marReturn.get('notifications'))
       .toEqual(
         expect.arrayContaining([{
@@ -119,7 +119,7 @@ describe('notificationReducer testing', () => {
 
   it('the SET_TYPE_FILTER action returns the correct data', () => {
     expect(
-      notesReducer(fnsReturn, noteActions.setNotificationFilter('urgent'))
+      notesReducer(setReturn, noteActions.setNotificationFilter('urgent'))
         .get('filter')
     ).toEqual('URGENT');
   });

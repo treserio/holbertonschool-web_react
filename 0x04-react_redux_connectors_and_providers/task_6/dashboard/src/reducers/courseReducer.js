@@ -6,25 +6,27 @@ const defaultState = List([]);
 
 export default function courseReducer(state = defaultState, action) {
   switch (action.type) {
-    case courseActions.FETCH_COURSE_SUCCESS:
+    // FETCH_COURSES_SUCCESS felt like an anti-pattern
+    case courseActions.SET_COURSES:
       return List(
         Object.values(courseSchema(action.data).entities.courses)
           .map((course) => ({
               ...course,
               isSelected: false,
           }))
-          .concat(...state)
       );
     case courseActions.SELECT_COURSE:
-      return List(state.map((course) => course.id === action.index ? {
-        ...course,
-        isSelected: true,
-      } : course ));
+      return state.setIn([action.index - 1, 'isSelected'], true);
+      // return List(state.map((course) => course.id === action.index ? {
+      //   ...course,
+      //   isSelected: true,
+      // } : course ));
     case courseActions.UNSELECT_COURSE:
-      return List(state.map((course) => course.id === action.index ? {
-        ...course,
-        isSelected: false,
-      } : course ));
+      return state.setIn([action.index - 1, 'isSelected'], false);
+      // return List(state.map((course) => course.id === action.index ? {
+      //   ...course,
+      //   isSelected: false,
+      // } : course ));
     }
   return state;
 };

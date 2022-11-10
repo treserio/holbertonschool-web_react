@@ -41,7 +41,7 @@ describe('notificationActionCreators testing', () => {
       });
   });
 
-  it('confirm fetchNotifications returns correct object', () => {
+  it('confirm fetchNotifications dispatches correct actions', () => {
     fetch.mockResponseOnce(JSON.stringify({ notes: 'testing' }));
     // test the .then on the dispatch call to see all the dispatch inside the async thunk action
     store.dispatch(noteActions.fetchNotifications())

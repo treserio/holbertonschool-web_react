@@ -9,17 +9,9 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Map } from 'immutable';
 import fetchMock from 'jest-fetch-mock';
-import AppContext from '../App/AppContext';
-import notesReducer from '../reducers/notificationReducer';
 
-// global.console.log = jest.fn();
+global.console.log = jest.fn();
 fetchMock.enableMocks();
-
-const listNotifications = [
-  { id: '1', type: 'default', value: 'Test 1' },
-  { id: '2', type: 'urgent', value: 'Test 2' },
-  { id: '3', type: 'urgent', html: { __html: getLatestNotification() } },
-];
 
 // const sameLN = [
 //   { id: '1', type: 'urgent', value: 'should have failed' },
@@ -35,13 +27,28 @@ const listNotifications = [
 // ];
 
 describe('Notifications Renders', () => {
-  const out = jest.spyOn(console, "log");
+
+  beforeEach(() => {
+    StyleSheetTestUtils.suppressStyleInjection();
+  });
+
+  afterEach(() => {
+    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
+  });
+
+  // const out = jest.spyOn(console, "log");
+  const notifications = [
+    { id: '1', type: 'default', value: 'Test 1' },
+    { id: '2', type: 'urgent', value: 'Test 2' },
+    { id: '3', type: 'urgent', html: { __html: getLatestNotification() } },
+  ];
+
   const initStore = mockStore([thunk]);
   let store = initStore({
     notes: Map({
       filter: 'DEFAULT',
       loading: false,
-      notifications: listNotifications,
+      notifications,
     })
   });
   let storeNoList = initStore({
@@ -50,14 +57,6 @@ describe('Notifications Renders', () => {
       loading: false,
       notifications: [],
     })
-  });
-
-  beforeEach(() => {
-    StyleSheetTestUtils.suppressStyleInjection();
-  });
-
-  afterEach(() => {
-    StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
   // setProps won't process on shallow, need to use mount

@@ -1,10 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { css, StyleSheet } from 'aphrodite';
-import CourseListRow from './CourseListRow';
-import CourseShape from './CourseShape';
+import CourseListRow, { ReduxCourseRow } from './CourseListRow';
+// import CourseShape from './CourseShape';
+import { connect } from 'react-redux';
+import * as courseActions from '../actions/courseActionCreators';
+import courseSelectors from '../selectors/courseSelector';
+import { List } from 'immutable';
 
 export default class CourseList extends React.Component {
+  componentDidMount() {
+    this.props.fetchCourses();
+  }
+
   render() {
     const style = StyleSheet.create({
       table: {
@@ -17,16 +25,32 @@ export default class CourseList extends React.Component {
     return (
       <table className={css(style.table)}>
         <thead>
-          <CourseListRow first={true} isHeader={true} textFirstCell='Available courses' />
-          <CourseListRow isHeader={true} textFirstCell='Course name' textSecondCell="Credit" />
+          <ReduxCourseRow
+            first={true}
+            isHeader={true}
+            textFirstCell='Available courses'
+          />
+          <ReduxCourseRow
+            isHeader={true}
+            textFirstCell='Course name'
+            textSecondCell="Credit"
+          />
         </thead>
         <tbody>
-          {
-            this.props.listCourses.length ?
+          {this.props.listCourses.size ?
               this.props.listCourses.map((course) =>
-                <CourseListRow key={course.id} id={course.id} textFirstCell={course.name} textSecondCell={course.credit} />
+                <ReduxCourseRow
+                  key={course.id}
+                  id={course.id}
+                  textFirstCell={course.name}
+                  textSecondCell={course.credit}
+                  isSelected={course.isSelected}
+                />
               )
-            : <CourseListRow isHeader={true} textFirstCell='No course available yet' />
+            : <ReduxCourseRow
+                isHeader={true}
+                textFirstCell='No course available yet'
+              />
           }
         </tbody>
       </table>
@@ -35,9 +59,27 @@ export default class CourseList extends React.Component {
 }
 
 CourseList.propTypes = {
-  listCourses: PropTypes.arrayOf(CourseShape),
+  listCourses: PropTypes.instanceOf(List),
 };
 
 CourseList.defaultProps = {
-  listCourses: [],
+  listCourses: List([]),
 };
+
+// functions for redux connect parameters
+export function mapStateToProps(state) {
+  return {
+    listCourses: courseSelectors.getCourses(state),
+  };
+}
+
+// binding dispatch to various functions that are sent in as props
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchCourses: () => dispatch(courseActions.fetchCourses()),
+    selectCourse: (args) => dispatch(courseActions.selectCourse(args)),
+    unSelectCourse: (args) => dispatch(courseActions.unSelectCourse(args)),
+  }
+}
+
+export const ReduxCourses = connect(mapStateToProps, mapDispatchToProps, null)(CourseList);

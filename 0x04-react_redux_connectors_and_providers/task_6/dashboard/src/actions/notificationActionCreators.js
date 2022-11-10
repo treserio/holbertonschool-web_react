@@ -1,10 +1,10 @@
 import noteTypes, { NotificationTypeFilters } from './notificationActionTypes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export function markAsRead(args) {
+export function markAsRead({ index }) {
   return {
     type: noteTypes.MARK_AS_READ,
-    index: args.index,
+    index,
   };
 }
 

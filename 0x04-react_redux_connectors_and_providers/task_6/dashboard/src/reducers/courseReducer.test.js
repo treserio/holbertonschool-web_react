@@ -3,7 +3,7 @@ import * as courseActions from '../actions/courseActionCreators';
 const { List } = require('immutable');
 
 describe('courseReducer testing', () => {
-  const fcsAction = courseActions.fetchCourses([
+  const setAction = courseActions.setCourses([
     {
       id: 1,
       name: 'ES6',
@@ -21,7 +21,7 @@ describe('courseReducer testing', () => {
     }
   ]);
 
-  const fcsReturn = List([
+  const setReturn = List([
     {
       id: 1,
       name: 'ES6',
@@ -42,7 +42,7 @@ describe('courseReducer testing', () => {
     }
   ]);
 
-  let scReturn = [];
+  let selectReturn = [];
 
   it('returns the initial state when no action is given', () => {
     expect(courseReducer(undefined, {}))
@@ -50,13 +50,13 @@ describe('courseReducer testing', () => {
   });
 
   it('the FETCH_COURSE_SUCCESS action returns the correct data', () => {
-    expect(courseReducer(undefined, fcsAction))
-      .toEqual(fcsReturn);
+    expect(courseReducer(undefined, setAction))
+      .toEqual(setReturn);
   });
 
   it('the SELECT_COURSE action returns the correct data', () => {
-    scReturn = courseReducer(fcsReturn, courseActions.selectCourse(2));
-    expect(scReturn.toJS())
+    selectReturn = courseReducer(setReturn, courseActions.selectCourse({ index: 2 }));
+    expect(selectReturn.toJS())
       .toEqual(
         expect.arrayContaining([{
           id: 2,
@@ -68,10 +68,7 @@ describe('courseReducer testing', () => {
   });
 
   it('the UNSELECT_COURSE action returns the correct data', () => {
-    expect(
-      courseReducer(scReturn, courseActions.unSelectCourse(2))
-        .toJS()
-    )
+    expect(courseReducer(selectReturn, courseActions.unSelectCourse({ index: 2 })).toJS())
       .toEqual(
         expect.arrayContaining([{
           id: 2,
