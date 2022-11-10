@@ -125,4 +125,18 @@ describe('Notifications Renders', () => {
         ])
       );
   });
+
+  it('buttons that dispatch the correct action to change our notes.filter', () => {
+    store.clearActions();
+    const buttons = notificationsOn.find('button');
+    buttons.first().simulate('click');
+    buttons.at(1).simulate('click');
+    expect(store.getActions())
+      .toEqual(
+        expect.arrayContaining([
+          { 'filter': 'URGENT', 'type': 'SET_TYPE_FILTER' },
+          { 'filter': 'DEFAULT', 'type': 'SET_TYPE_FILTER' },
+        ])
+      );
+  });
 });

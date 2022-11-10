@@ -97,23 +97,21 @@ export default class Notifications extends React.PureComponent {
                 <p>Here is the list of notifications</p>
                 <ul className={css(style.ul)}>
                   {this.props.listNotifications.map((note) =>
-                    !note.isRead ?
-                      note.html ?
-                        <NotificationItem
-                          key={note.id}
-                          id={note.id}
-                          type={note.type}
-                          html={note.html}
-                          markNotificationAsRead={this.props.markNotificationAsRead}
-                        />
-                      : <NotificationItem
-                          key={note.id}
-                          id={note.id}
-                          type={note.type}
-                          value={note.value}
-                          markNotificationAsRead={this.props.markNotificationAsRead}
-                        />
-                    : null
+                    note.html ?
+                      <NotificationItem
+                        key={note.id}
+                        id={note.id}
+                        type={note.type}
+                        html={note.html}
+                        markNotificationAsRead={this.props.markNotificationAsRead}
+                      />
+                    : <NotificationItem
+                        key={note.id}
+                        id={note.id}
+                        type={note.type}
+                        value={note.value}
+                        markNotificationAsRead={this.props.markNotificationAsRead}
+                      />
                   )}
                 </ul>
               </React.Fragment>

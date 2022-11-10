@@ -119,7 +119,7 @@ describe('notificationReducer testing', () => {
 
   it('the SET_TYPE_FILTER action returns the correct data', () => {
     expect(
-      notesReducer(setReturn, noteActions.setNotificationFilter('urgent'))
+      notesReducer(setReturn, noteActions.setNotificationFilter({ filter: 'urgent' }))
         .get('filter')
     ).toEqual('URGENT');
   });

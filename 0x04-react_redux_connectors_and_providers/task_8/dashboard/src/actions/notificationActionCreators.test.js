@@ -18,7 +18,7 @@ describe('notificationActionCreators testing', () => {
   });
 
   it('confirm setNotificationFilter returns correct object', () => {
-    expect(noteActions.setNotificationFilter('default'))
+    expect(noteActions.setNotificationFilter({ filter: 'default' }))
       .toEqual({
         type: 'SET_TYPE_FILTER',
         filter: 'DEFAULT',

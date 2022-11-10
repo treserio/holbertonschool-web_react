@@ -8,7 +8,7 @@ export function markAsRead({ index }) {
   };
 }
 
-export function setNotificationFilter(filter) {
+export function setNotificationFilter({ filter }) {
   return {
     type: noteTypes.SET_TYPE_FILTER,
     filter: NotificationTypeFilters[filter.toUpperCase()],

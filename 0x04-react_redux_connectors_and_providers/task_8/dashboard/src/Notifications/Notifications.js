@@ -62,6 +62,14 @@ export default class Notifications extends React.PureComponent {
           width: '100vw',
         },
       },
+      row: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      margRight: {
+        marginRight: '30px',
+      },
       wrapper: {
         display: 'flex',
         flexDirection: 'column',
@@ -92,26 +100,28 @@ export default class Notifications extends React.PureComponent {
           <div className={`Notifications ${css(style.noteBox)}`} >
             {this.props.listNotifications.length ?
               <React.Fragment>
-                <p>Here is the list of notifications</p>
+                <div className={css(style.row)} >
+                  <p className={css(style.margRight)} >Here is the list of notifications</p>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'urgent' })}>‼️</button>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'default' })}>💠</button>
+                </div>
                 <ul className={css(style.ul)}>
                   {this.props.listNotifications.map((note) =>
-                    !note.isRead ?
-                      note.html ?
-                        <NotificationItem
-                          key={note.id}
-                          id={note.id}
-                          type={note.type}
-                          html={note.html}
-                          markNotificationAsRead={this.props.markNotificationAsRead}
-                        />
-                      : <NotificationItem
-                          key={note.id}
-                          id={note.id}
-                          type={note.type}
-                          value={note.value}
-                          markNotificationAsRead={this.props.markNotificationAsRead}
-                        />
-                    : null
+                    note.html ?
+                      <NotificationItem
+                        key={note.id}
+                        id={note.id}
+                        type={note.type}
+                        html={note.html}
+                        markNotificationAsRead={this.props.markNotificationAsRead}
+                      />
+                    : <NotificationItem
+                        key={note.id}
+                        id={note.id}
+                        type={note.type}
+                        value={note.value}
+                        markNotificationAsRead={this.props.markNotificationAsRead}
+                      />
                   )}
                 </ul>
               </React.Fragment>
@@ -150,7 +160,7 @@ Notifications.defaultProps = {
 // functions for redux connect parameters
 export function mapStateToProps(state) {
   return {
-    listNotifications: noteSelectors.getUnreadNotifications(state),
+    listNotifications: noteSelectors.getUnreadNotificationsByType(state),
   };
 }
 
@@ -159,6 +169,7 @@ function mapDispatchToProps(dispatch) {
   return {
     fetchNotifications: () => dispatch(noteActions.fetchNotifications()),
     markNotificationAsRead: (args) => dispatch(noteActions.markAsRead(args)),
+    setNoteFilter: (args) => dispatch(noteActions.setNotificationFilter(args))
   }
 }
 
