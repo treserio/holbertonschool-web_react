@@ -125,7 +125,11 @@ export default class Notifications extends React.PureComponent {
                   )}
                 </ul>
               </React.Fragment>
-              : <p>No new notification for now</p>
+              : <div className={css(style.row)} >
+                  <p className={css(style.margRight)} >No new notification for now</p>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'urgent' })}>‼️</button>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'default' })}>💠</button>
+                </div>
             }
             <button
               className={`closeBtn ${css(style.close_btn)}`}

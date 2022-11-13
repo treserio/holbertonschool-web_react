@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function WithLogging({Wrapped}) {
-  const wrappedName = Wrapped.type.name ? Wrapped.type.name
-  : Wrapped.type.displayName ? Wrapped.type.displayName
-  : 'Component';
+  const wrappedName = Wrapped.type.name || Wrapped.type.displayName || 'Component';
 
   class BuildWithLogging extends React.Component {
     static displayName = `withLogging(${wrappedName})`;

@@ -4,14 +4,20 @@ import { css, StyleSheet } from 'aphrodite';
 import NotificationItem from './NotificationItem';
 import closeIcon from '../assets/close-icon.png';
 import NotificationItemShape from './NotificationItemShape';
-import { connect } from 'react-redux';
-import * as noteActions from '../actions/notificationActionCreators';
-import noteSelectors from '../selectors/notificationSelector';
+// import { connect } from 'react-redux';
+// import * as noteActions from '../actions/notificationActionCreators';
+// import noteSelectors from '../selectors/notificationSelector';
+
+let mounted = 0;
 
 export default class Notifications extends React.PureComponent {
 
   componentDidMount() {
-    this.props.fetchNotifications();
+    // console.log(mounted);
+    if (!mounted) {
+      this.props.fetchNotifications();
+      mounted++;
+    }
   }
 
   render () {
@@ -125,7 +131,11 @@ export default class Notifications extends React.PureComponent {
                   )}
                 </ul>
               </React.Fragment>
-              : <p>No new notification for now</p>
+              : <div className={css(style.row)} >
+                  <p className={css(style.margRight)} >No new notification for now</p>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'urgent' })}>‼️</button>
+                  <button onClick={() => this.props.setNoteFilter({ filter: 'default' })}>💠</button>
+                </div>
             }
             <button
               className={`closeBtn ${css(style.close_btn)}`}
@@ -147,6 +157,8 @@ Notifications.propTypes = {
   handleHideDrawer: PropTypes.func,
   handleDisplayDrawer: PropTypes.func,
   markNotificationAsRead: PropTypes.func,
+  fetchNotifications: PropTypes.func,
+  setNoteFilter: PropTypes.func,
 }
 
 Notifications.defaultProps = {
@@ -154,23 +166,25 @@ Notifications.defaultProps = {
   listNotifications: [],
   handleHideDrawer: () => console.log('handleHideDrawer missing'),
   handleDisplayDrawer: () => console.log('handleDisplayDrawer missing'),
-  markNotificationAsRead: (id) => console.log(`Notification ${id} has been marked as read`),
+  markNotificationAsRead: ({ index }) => console.log(`Notification ${index} has been marked as read`),
+  fetchNotifications: () => console.log('fetchNotifications missing'),
+  setNoteFilter: ({filter}) => console.log(`setNoteFilter ${filter} is missing`),
 }
 
-// functions for redux connect parameters
-export function mapStateToProps(state) {
-  return {
-    listNotifications: noteSelectors.getUnreadNotificationsByType(state),
-  };
-}
+// // functions for redux connect parameters
+// export function mapStateToProps(state) {
+//   return {
+//     listNotifications: noteSelectors.getUnreadNotificationsByType(state),
+//   };
+// }
 
-// binding dispatch to various functions that are sent in as props
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchNotifications: () => dispatch(noteActions.fetchNotifications()),
-    markNotificationAsRead: (args) => dispatch(noteActions.markAsRead(args)),
-    setNoteFilter: (args) => dispatch(noteActions.setNotificationFilter(args))
-  }
-}
+// // binding dispatch to various functions that are sent in as props
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     fetchNotifications: () => dispatch(noteActions.fetchNotifications()),
+//     markNotificationAsRead: (args) => dispatch(noteActions.markAsRead(args)),
+//     setNoteFilter: (args) => dispatch(noteActions.setNotificationFilter(args))
+//   }
+// }
 
-export const ReduxNotes = connect(mapStateToProps, mapDispatchToProps, null)(Notifications);
+// export const ReduxNotes = connect(mapStateToProps, mapDispatchToProps, null)(Notifications);

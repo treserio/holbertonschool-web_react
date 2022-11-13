@@ -4,13 +4,14 @@ import { css, StyleSheet } from 'aphrodite';
 import BodySection from '../BodySection/BodySection';
 import BodySectionWithMarginBottom from '../BodySection/BodySectionWithMarginBottom';
 import { ReduxCourses } from '../CourseList/CourseList';
-import {ReduxFooter} from '../Footer/Footer';
+import { ReduxFooter } from '../Footer/Footer';
 import Header from '../Header/Header';
 import Login from '../Login/Login';
-import { ReduxNotes } from '../Notifications/Notifications';
+import Notifications, { ReduxNotes } from '../Notifications/Notifications';
 import AppContext from './AppContext';
 import { connect, Provider } from 'react-redux';
 import * as uiActions from '../actions/uiActionCreators';
+import ReduxWrapper from '../HOC/ReduxWrapper';
 
 export default class App extends React.Component {
   static contextType = AppContext;
@@ -53,10 +54,18 @@ export default class App extends React.Component {
       <AppContext.Provider value={{user: this.props.user, logout: this.props.logout}}>
         <div className='App'>
           <Provider store={this.context.store}>
-            <ReduxNotes
-              displayDrawer={this.props.displayDrawer}
-              handleHideDrawer={this.props.hideNotificationDrawer}
-              handleDisplayDrawer={this.props.displayNotificationDrawer}
+            {/* {ReduxWrapper({
+                wrapped: Notifications,
+                displayDrawer: this.props.displayDrawer,
+                handleHideDrawer: this.props.hideNotificationDrawer,
+                handleDisplayDrawer: this.props.displayNotificationDrawer,
+              })
+            } */}
+            <ReduxWrapper
+                wrapped={Notifications}
+                displayDrawer={this.props.displayDrawer}
+                handleHideDrawer={this.props.hideNotificationDrawer}
+                handleDisplayDrawer={this.props.displayNotificationDrawer}
             />
             <Header />
             <div className={`App-body ${css(style.body)}`}>

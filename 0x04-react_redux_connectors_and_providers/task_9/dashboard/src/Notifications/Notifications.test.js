@@ -1,17 +1,17 @@
 import React from 'react';
-import { ReduxNotes } from './Notifications';
+import Notifications from './Notifications';
 import { mount } from 'enzyme';
 import { assert } from 'chai';
 import { getLatestNotification } from '../utils/utils';
 import { StyleSheetTestUtils } from 'aphrodite';
-import mockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import { Map } from 'immutable';
-import fetchMock from 'jest-fetch-mock';
+// import mockStore from 'redux-mock-store';
+// import thunk from 'redux-thunk';
+// import { Provider } from 'react-redux';
+// import { Map } from 'immutable';
+// import fetchMock from 'jest-fetch-mock';
 
 global.console.log = jest.fn();
-fetchMock.enableMocks();
+// fetchMock.enableMocks();
 
 describe('Notifications Renders', () => {
 
@@ -23,48 +23,43 @@ describe('Notifications Renders', () => {
     StyleSheetTestUtils.clearBufferAndResumeStyleInjection();
   });
 
-  // const out = jest.spyOn(console, "log");
-  const notifications = [
+  const out = jest.spyOn(console, "log");
+  const listNotifications = [
     { id: '1', type: 'default', value: 'Test 1' },
     { id: '2', type: 'urgent', value: 'Test 2' },
     { id: '3', type: 'urgent', html: { __html: getLatestNotification() } },
   ];
 
-  const initStore = mockStore([thunk]);
-  let store = initStore({
-    notes: Map({
-      filter: 'DEFAULT',
-      loading: false,
-      notifications,
-    })
-  });
-  let storeNoList = initStore({
-    notes: Map({
-      filter: 'DEFAULT',
-      loading: false,
-      notifications: [],
-    })
-  });
+
+  // const notifications = [
+  //   { id: '1', type: 'default', value: 'Test 1' },
+  //   { id: '2', type: 'urgent', value: 'Test 2' },
+  //   { id: '3', type: 'urgent', html: { __html: getLatestNotification() } },
+  // ];
+
+  // const initStore = mockStore([thunk]);
+  // let store = initStore({
+  //   notes: Map({
+  //     filter: 'DEFAULT',
+  //     loading: false,
+  //     notifications,
+  //   })
+  // });
+  // let storeNoList = initStore({
+  //   notes: Map({
+  //     filter: 'DEFAULT',
+  //     loading: false,
+  //     notifications: [],
+  //   })
+  // });
 
   // setProps won't process on shallow, need to use mount
-  fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
-  const notificationsOn = mount(
-    <Provider store={store}>
-      <ReduxNotes displayDrawer={true} />
-    </Provider>
-  );
-  fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
-  const notificationsOff = mount(
-    <Provider store={store}>
-      <ReduxNotes displayDrawer={false} />
-    </Provider>
-  );
-  fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
-  const noListNotes = mount(
-    <Provider store={storeNoList}>
-      <ReduxNotes displayDrawer={true} />
-    </Provider>
-  );
+  // fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
+  const notificationsOn = mount(<Notifications displayDrawer={true} listNotifications={listNotifications} />);
+  // fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
+  const notificationsOff = mount(<Notifications displayDrawer={false}  listNotifications={listNotifications} />);
+  // fetch.mockResponseOnce(JSON.stringify({ thing: 'stuff' }));
+  const noListNotes = mount(<Notifications displayDrawer={true} />);
 
   const ul = notificationsOn.find('ul');
   const p = notificationsOn.find('p');
@@ -72,6 +67,7 @@ describe('Notifications Renders', () => {
   it('without crashing', () => {
     assert.equal(notificationsOn.length, 1)
     assert.equal(notificationsOff.length, 1)
+    expect(out).toHaveBeenCalledWith('fetchNotifications missing');
   });
 
   it('menuItem with displayDrawer and not without', () => {
@@ -108,35 +104,20 @@ describe('Notifications Renders', () => {
   });
 
   it('li items run onClick correctly', () => {
-    const liList = notificationsOn.find('li');
-    liList.first().simulate('click');
-    liList.at(1).simulate('click');
-    liList.last().simulate('click');
-    expect(store.getActions())
-      .toEqual(
-        expect.arrayContaining([
-          { type: 'MARK_AS_READ', index: '1' },
-          { type: 'MARK_AS_READ', index: '2' },
-          { type: 'MARK_AS_READ', index: '3' },
-          // since the meta.requestId changes on call need partial match here
-          expect.objectContaining({
-            type: 'notes/fetchNotes/fulfilled',
-          }),
-        ])
-      );
+    const render = mount(<ul>{ul.children()}</ul>);
+    render.find('li').first().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 1 has been marked as read');
+    render.find('li').at(1).simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 2 has been marked as read');
+    render.find('li').last().simulate('click');
+    expect(out).toHaveBeenCalledWith('Notification 3 has been marked as read');
   });
 
   it('buttons that dispatch the correct action to change our notes.filter', () => {
-    store.clearActions();
     const buttons = notificationsOn.find('button');
     buttons.first().simulate('click');
+    expect(out).toHaveBeenCalledWith('setNoteFilter urgent is missing');
     buttons.at(1).simulate('click');
-    expect(store.getActions())
-      .toEqual(
-        expect.arrayContaining([
-          { 'filter': 'URGENT', 'type': 'SET_TYPE_FILTER' },
-          { 'filter': 'DEFAULT', 'type': 'SET_TYPE_FILTER' },
-        ])
-      );
+    expect(out).toHaveBeenCalledWith('setNoteFilter default is missing');
   });
 });
