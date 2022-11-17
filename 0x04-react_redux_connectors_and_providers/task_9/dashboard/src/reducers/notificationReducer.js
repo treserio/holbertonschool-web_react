@@ -11,17 +11,14 @@ const defaultState = Map({
 export default function notificationReducer(state = defaultState, action) {
   switch (action.type) {
     case noteActions.SET_NOTIFICATIONS:
-      const normalized = notificationNormalizer(action.data);
-      // console.log('norm', normalized);
-      return state.mergeDeep({
-        notifications: Object.values(normalized.entities.messages)
-          .map((note) => ({
-            id: note.guid,
-            value: note.value,
-            type: note.type,
-            isRead: note.isRead,
-          }))
-      });
+      // filter out duplicate notes before mapping the id value correctly from guid
+      const notifications = Object.values(notificationNormalizer(action.data).entities.messages)
+        .filter((note) => !state.get('notifications')
+          .find((oldNotes) => oldNotes.id == note.guid)
+        )
+        .map((note) => ({ ...note, id: note.guid }));
+      // console.log('results', notifications)
+      return state.mergeDeep({ notifications });
     case noteActions.MARK_AS_READ:
       const index = state.get('notifications').findIndex((note) => note.id === action.index);
       return state.setIn(['notifications', index, 'isRead'], true);

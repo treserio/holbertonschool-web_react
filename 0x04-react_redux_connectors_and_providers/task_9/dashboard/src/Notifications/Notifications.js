@@ -8,20 +8,15 @@ import NotificationItemShape from './NotificationItemShape';
 // import * as noteActions from '../actions/notificationActionCreators';
 // import noteSelectors from '../selectors/notificationSelector';
 
-let mounted = 0;
 
 export default class Notifications extends React.PureComponent {
 
   componentDidMount() {
-    // console.log(mounted);
-    if (!mounted) {
-      this.props.fetchNotifications();
-      mounted++;
-    }
+    this.props.fetchNotifications();
   }
 
   render () {
-    // bouce animation
+    // bounce animation
     const bounce = {
       '0%': { transform: 'translateY(0px)' },
       '50%': { transform: 'translateY(-5px)' },
